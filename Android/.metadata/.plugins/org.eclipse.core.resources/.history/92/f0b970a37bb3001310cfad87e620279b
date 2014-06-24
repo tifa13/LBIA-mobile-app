@@ -1,0 +1,214 @@
+package com.DreamInc.dream;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.http.util.EncodingUtils;
+
+import android.R.string;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
+
+public class SecondScreenActivity extends Activity {
+	public Server setupconnection = new Server();	
+	
+	
+	public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+      setContentView(R.layout.secondscreen);
+      Log.d(null, "second screen");
+     
+
+      
+      final EditText username = (EditText) findViewById(R.id.inputusername);
+      EditText password = (EditText) findViewById(R.id.inputpassword);
+      Button btnaction1 = (Button) findViewById(R.id.btnaction1);
+      final String username2 = username.getText().toString();
+      final String password2 = password.getText().toString();
+      //String type;
+     
+      
+      
+      Intent i = getIntent();
+      final String action = i.getStringExtra("action1");
+      btnaction1.setText(action);
+      /**if(action.equals("Sign Up"))
+      {
+    	   type = "new";
+      }else{
+    	  type = "existing";
+      }*/
+      //final String type2 = type;
+      
+      setupconnection.setupconnection();
+      final String devicetype = "1";  
+      
+    	  btnaction1.setOnClickListener(new View.OnClickListener() {
+  			
+  			@Override
+  			public void onClick(View arg0) {
+  				
+  				
+  		       Log.d(null, "server");
+  		        
+  		        String firstcommand = devicetype+",," +username2 +","+password2;
+  		        //byte[] firstcommandbyte;
+				
+					//byte[] firstcommandbyte = null;
+					/*try {
+						firstcommandbyte = firstcommand.getBytes("US-ASCII");
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}*/
+					
+					
+					//System.out.println(firstcommandbyte);
+					//firstcommandbyte = firstcommand.getBytes("US_ASCII");
+				
+  		        
+  		        
+  		        Log.d(null, "2eshta3'l");
+  		        Server.communicate(firstcommandbyte);
+  		        
+  		        Log.d(null, "rege3");
+				
+  		       
+					String assignedname = Server.getinput();
+					Log.d(null, "rege32");
+					//System.out.println("not working");
+  		        System.out.println(assignedname);
+  		        String secondcommand = assignedname+","+"send list of devices";
+  		        byte[] secondcommandbyte = secondcommand.getBytes();
+  		        Server.communicate(secondcommandbyte);
+  		        //String listofdevices = Server.getinput();
+  		          
+  		        String listofdevices = "lamp,door,window,television,";
+  		       
+  		        
+  		      ArrayList<String> devices2 = new ArrayList<String>();   
+  		     
+  		     String letters = ",";
+  		     Pattern pattern = Pattern.compile("[" + letters + "]");
+  		     Matcher matcher = pattern.matcher(listofdevices);
+  		     int position = -1;
+  		     while (matcher.find()) {
+  		         position = matcher.start();
+  		       //System.out.println(position); // prints 2
+  		       String temp = listofdevices.substring(0, position);
+  		       System.out.println(temp);
+  		       listofdevices = listofdevices.substring(position+1);
+  		       //System.out.println(devices);
+  		       matcher = pattern.matcher(listofdevices);
+  		       devices2.add(temp);
+  		     }
+  		     
+  		     
+  		        
+  		        
+  		        
+  				Intent screen3 = new Intent(getApplicationContext(), ThirdScreenActivity.class);
+  				screen3.putExtra("devicename", assignedname.toString());
+  				screen3.putStringArrayListExtra("values", devices2);
+  				
+  				
+                startActivity(screen3);
+  			}
+  		});
+      }
+      
+      
+      
+}
+
+class Server{
+	public static Socket echoSocket = null;
+    public static  PrintWriter out = null;
+    public static  BufferedReader in = null;
+    public String serverHostname = new String ("192.168.1.5");
+	public  void  setupconnection() 
+	{
+		
+
+        System.out.println ("Attemping to connect to host " +
+    			serverHostname + " on port 10007.");
+    	               
+    	        try {
+    	            // echoSocket = new Socket("taranis", 7);
+    	        	Log.d(null, "crash");
+    	            echoSocket = new Socket(serverHostname, 14);
+    	            out = new PrintWriter(echoSocket.getOutputStream(), true);
+    	            in = new BufferedReader(new InputStreamReader(
+    	                                        echoSocket.getInputStream()));
+    	            Log.d(null, "msg73");
+    	            
+    	        } catch (UnknownHostException e) {
+    	            System.err.println("Don't know about host: " + serverHostname);
+    	            System.exit(1);
+    	        } catch (IOException e) {
+    	            System.err.println("Couldn't get I/O for "
+    	                               + "the connection to: " + serverHostname);
+    	            System.exit(1);
+    	        }
+        
+        System.out.println("connection established");
+        Log.d(null, "msg83");
+        
+      
+   	
+   	 	
+	}
+	public  static void communicate(byte[] firstcommandbyte) {
+		out.println(firstcommandbyte);   
+   	if (firstcommandbyte.equals("Bye.")) {
+   		out.close(); 
+   	    try {
+			in.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+   	    try {
+			echoSocket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 
+		
+	}
+   	
+   	
+	}public static String getinput(){
+		char[] serverinput2 = new char [100];
+   	    try {
+			in.read(serverinput2);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+       
+   	    Log.d(null, "msg63");
+   	    
+   	 String x = String.valueOf(serverinput2);
+   	 return x;
+	}
+	}
+
+
+	
+

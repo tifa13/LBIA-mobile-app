@@ -1,0 +1,5 @@
+com.android.ide.eclipse.adt.fixLegacyEditors=1
+com.android.ide.eclipse.adt.sdk=/Applications/Android Development /sdk
+design.palette.flyout.width=145
+design.structure.flyout.width=227
+eclipse.preferences.version=1

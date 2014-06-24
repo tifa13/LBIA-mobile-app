@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Test2</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Dream Inc</string>
+    <string name="signup">Sign In</string>
+    <string name="password1">Password</string>
+    <string name="username1">Username</string>
+    <string name="username">Username</string>
+
+</resources>
