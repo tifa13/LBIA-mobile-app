@@ -83,7 +83,7 @@ public class SecondScreenActivity extends Activity {
                 assignedname = new String(inputBuffer);
                 String firstcommand = number+","+assignedname+",  ,    ,"+username2 +","+password2+".";
                 Server.communicate(firstcommand);
-	      	     //commands= Server.GetCommandsfromData();
+	      	     
 
   			 }
   				 else {
