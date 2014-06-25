@@ -303,7 +303,7 @@ class Server extends Activity{
 		for (int z = 0; z<=Commands.length ; z++)
 		{
 			String checkcommand = Commands[z];
-			if(checkcommand.matches(("(^(1|4|5|6|7|8),.*,Y|N|\\d*,.*?,.*?$)")))
+			if(checkcommand.matches(("(^(1|4|5|6|7|8),.*,Y|N|\\d*,.*?,.*?)")))
 			{
 				Commands2 = checkcommand.split(",");
 				 assignedname = Commands2[1];
