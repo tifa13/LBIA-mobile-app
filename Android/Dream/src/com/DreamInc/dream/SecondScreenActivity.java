@@ -98,8 +98,7 @@ public class SecondScreenActivity extends Activity {
   	                String firstcommand = number1+",   ,    ,    ,"+username2 +","+password2+".";
   	                Server.communicate(firstcommand);
 
-  	      	       commands= Server.GetCommandsfromData();
-					assignedname = commands[0];
+  	      	       assignedname = Server.GetData(1);
   			
 
   					FileOutputStream fOut = openFileOutput("yano2.txt", 0);				
@@ -113,44 +112,17 @@ public class SecondScreenActivity extends Activity {
   	             ioe.printStackTrace();
   			 }
   	      
-  		     String clear;
-  		       int lenght1 = commands.length;
-  		       if (lenght1==1){
-  		    	  clear = commands[0];
-  		       }else{
-  		    	   clear = commands[1];
-  		       }
+  		     String clear = Server.GetData(2);
   		    	   
   				
-  				if(clear.equals("Yes")){
+  				if(clear.equals("Y")){
   					
   				
   		      
   		        System.out.println(assignedname);
-  		        String secondcommand = assignedname+",s"+".";
   		        
-  		        Server.communicate(secondcommand);
-  		        
-  		          
-  		        //String listofdevices = "lamp,door,window,television,";
-  		        String[] devicesstatus = Server.GetCommandsfromData();
-  		        //String[] devicesstatus = {"lamp,off"};
-  		        String devicesstatus1 =devicesstatus[0];
-  		        String[] devicesstatus2 = devicesstatus1.split(",");
-  		        int length2=(devicesstatus2.length)/2;
-  		      String[] listofdevices ;
-  		      listofdevices = new String[length2];
-  		      String[] listofstatus ;
-  		      listofstatus = new String[length2];
-  		      int z=0;
-  		      int d=1;
-  		        for(int i=0;i < length2;i++){
-  		        	 listofdevices[i] = devicesstatus2[z];
-  		        	 listofstatus[i] = devicesstatus2[d];
-  		        	 z=z+2;
-  		        	 d=d+2;
-  		        	 
-  		        }
+  		        String[] listofdevices = Server.GetCommands(1);
+  		        String[] listofstatus  = Server.GetCommands(2);
   		        
   		   
   		     
@@ -228,6 +200,8 @@ class Server extends Activity{
    	
    	 	
 	}
+	
+	
 	public  static void communicate(String firstcommand) {
 		
 	try {
@@ -294,12 +268,15 @@ class Server extends Activity{
 	}while (Commands!= null);
 		return Commands;
 	}
+	
+	
 	public static String GetData(int x)
 	{
 		String[] Commands = Server.GetCommandsfromData();
 		String[] Commands2;
 		String assignedname = "tanash";
 		String answer = "tanash";
+		String Confirmation = "tanash";
 		for (int z = 0; z<=Commands.length ; z++)
 		{
 			String checkcommand = Commands[z];
@@ -309,6 +286,10 @@ class Server extends Activity{
 				 assignedname = Commands2[1];
 				if (Commands2[0].equals("4")|Commands2[0].equals("5")|Commands2[0].equals("6")|Commands2[0].equals("7")){
 					 answer = Commands2[2];
+				}
+				if (Commands2[0].equals("8"))
+				{
+					Confirmation = Commands2[2];
 				}
 				
 				
@@ -323,8 +304,14 @@ class Server extends Activity{
 		{
 			reply = answer;
 		}
+		if (x==3)
+		{
+			reply = Confirmation;
+		}
 		return reply;
 	}
+	
+	
 	public static String[] GetCommands(int x)
 	{
 		String[] Commands = Server.GetCommandsfromData();
@@ -339,7 +326,7 @@ class Server extends Activity{
 		for (int z = 0; z<=Commands.length ; z++)
 		{
 			String checkcommand = Commands[z];
-			if(checkcommand.matches(("(^(1|4|5|6|7|8),.*,Y|N|\\d*,.*?,.*?$)")))
+			if(checkcommand.matches(("(^(1|4|5|6|7|8),.*,Y|N|\\d*,.*?,.*?)")))
 			{
 				Commands2 = checkcommand.split(",");
 				

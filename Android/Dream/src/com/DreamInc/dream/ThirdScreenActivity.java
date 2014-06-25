@@ -39,13 +39,7 @@ public class ThirdScreenActivity extends Activity {
       
       
       
-      /**List<String> values = Arrays.asList("Open Lamp", 
-              "Close Lamp",
-              "Open Door",
-              "Close Door");*/
-      /*final Integer[] color1 = {
-  			0 ,0,0,0
-  	};*/
+     
       CustomList adapter = new
 				CustomList(ThirdScreenActivity.this, devices, status );
        final ListView list =(ListView) findViewById(R.id.list);
@@ -58,77 +52,50 @@ public class ThirdScreenActivity extends Activity {
 		            	
 		            	 z = status[position];
 		            	
-		            	if (z.equals("off")){
+		            	if (z.equals("0")){
 		            		
-		            		 String commandon = name+","+devices[+position]+",On.";
+		            		 String commandon = "8,"+name+","+devices[+position]+",On,   ,   .";
 		            		 Server.communicate(commandon);
-		            		 String[] feedback = Server.GetCommandsfromData();
-		            		 if (feedback.length>1){
-		            			 String[] devicesstatus = feedback;
-		           		        String devicesstatus1 =devicesstatus[0];
-		           		        String[] devicesstatus2 = devicesstatus1.split(",");
-		           		        int length2=(devicesstatus2.length)/2;
-		           		      String[] listofdevices ;
-		           		      listofdevices = new String[length2];
-		           		      String[] listofstatus ;
-		           		      listofstatus = new String[length2];
-		           		      int f=0;
-		           		      int d=1;
-		           		        for(int i=0;i < length2;i++){
-		           		        	 listofdevices[i] = devicesstatus2[f];
-		           		        	 listofstatus[i] = devicesstatus2[d];
-		           		        	 z=z+2;
-		           		        	 d=d+2;
-		           		        	 
-		           		        }
+		            		 String Confirmation = Server.GetData(3);
+		            		 if (Confirmation.equals("Y"))
+		            		 {
+		            		    String[] listofdevices = Server.GetCommands(1);
+		            		    String[] listofstatus  = Server.GetCommands(2);
 		           		        devices = listofdevices;
 		           		        status = listofstatus;
+		           		        list.getChildAt(position).setBackgroundColor(Color.GREEN);
+		           		     	status[+position] =  "255" ;
 		            		 }
-		            		 
-		            		 String feedback1 =feedback[0];
-		            		 if ( feedback1.equals(devices[position]+","+name+",On"))
+		            		 if (Confirmation.equals("N"))
 		            		 {
-		            			 list.getChildAt(position).setBackgroundColor(Color.GREEN);
-			            		 status[+position] =  "on" ;
-			            		 Toast.makeText(getApplicationContext(),
+		            			 String feedback1 = "Command can't be executed. Please try again later";
+		            			 Toast.makeText(getApplicationContext(),
 			                             feedback1, Toast.LENGTH_LONG)
 			                          .show();
 		            		 }
 		            		 
 		            		 
 		            		 
+		            		 
+		            		 
 		            	}else{
 		            		
-		            		String commandoff = name+","+devices[+position]+",OFF.";
+		            		String commandoff = "8,"+name+","+devices[+position]+",Off,   ,   .";
 		            		 Server.communicate(commandoff);
-		            		 String feedback[] = Server.GetCommandsfromData();
-		            		 if (feedback.length>1){
-		            			 String[] devicesstatus = feedback;
-		           		        String devicesstatus1 =devicesstatus[0];
-		           		        String[] devicesstatus2 = devicesstatus1.split(",");
-		           		        int length2=(devicesstatus2.length)/2;
-		           		      String[] listofdevices ;
-		           		      listofdevices = new String[length2];
-		           		      String[] listofstatus ;
-		           		      listofstatus = new String[length2];
-		           		      int f=0;
-		           		      int d=1;
-		           		        for(int i=0;i < length2;i++){
-		           		        	 listofdevices[i] = devicesstatus2[f];
-		           		        	 listofstatus[i] = devicesstatus2[d];
-		           		        	 z=z+2;
-		           		        	 d=d+2;
-		           		        	 
-		           		        }
+		            		 String Confirmation = Server.GetData(3);
+		            		 if (Confirmation.equals("Y"))
+		            		 {
+		            		    String[] listofdevices = Server.GetCommands(1);
+		            		    String[] listofstatus  = Server.GetCommands(2);
 		           		        devices = listofdevices;
 		           		        status = listofstatus;
+		           		        list.getChildAt(position).setBackgroundColor(Color.TRANSPARENT);
+		           		     	status[+position] =  "0" ;
 		            		 }
-		            		 String feedback1= feedback[0];
-		            		 if ( feedback1.equals(devices[position]+","+name+",Off"))
+		            		 if (Confirmation.equals("N"))
 		            		 {
-		            			 list.getChildAt(position).setBackgroundColor(Color.TRANSPARENT);
-			            		 status[+position] =  "off" ;
-			            		 Toast.makeText(getApplicationContext(),
+		            			 String feedback1 = "Command can't be executed. Please try again later";
+		            			 Toast.makeText(getApplicationContext(),
 			                             feedback1, Toast.LENGTH_LONG)
 			                          .show();
 		            		 }
@@ -148,28 +115,10 @@ public class ThirdScreenActivity extends Activity {
 		  			}
 				});
 				
-			//devices=Server.GetCommandsfromData();
-				String[] feedback = Server.GetCommandsfromData();
-       		 if (feedback.length>1){
-       			 String[] devicesstatus = feedback;
-      		        String devicesstatus1 =devicesstatus[0];
-      		        String[] devicesstatus2 = devicesstatus1.split(",");
-      		        int length2=(devicesstatus2.length)/2;
-      		      String[] listofdevices ;
-      		      listofdevices = new String[length2];
-      		      String[] listofstatus ;
-      		      listofstatus = new String[length2];
-      		      int f=0;
-      		      int d=1;
-      		        for(int t=0;t < length2;t++){
-      		        	 listofdevices[t] = devicesstatus2[f];
-      		        	 listofstatus[t] = devicesstatus2[d];
-      		        	 z=z+2;
-      		        	 d=d+2;
-      		        	 
-      		        }
-      		        devices = listofdevices;
-      		        status = listofstatus;
+				String[] listofdevices = Server.GetCommands(1);
+    		    String[] listofstatus  = Server.GetCommands(2);
+   		        devices = listofdevices;
+   		        status = listofstatus;
        		 }
 				
 				
@@ -178,5 +127,5 @@ public class ThirdScreenActivity extends Activity {
       
       
       
-	}
+	
 
