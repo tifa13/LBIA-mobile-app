@@ -193,9 +193,10 @@ class Server extends Activity{
     	    		x++;
     	            
     	           
-    	           if (x==3)
+    	           if (x==5)
     	           {
     	            System.exit(1);
+    	            
     	           }
     	        }
     	         }while(x!=0);
