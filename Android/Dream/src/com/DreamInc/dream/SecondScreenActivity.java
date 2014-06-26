@@ -146,7 +146,9 @@ public class SecondScreenActivity extends Activity {
   				}
   			
   		});
+    	  
       }
+	
 	
 	
       
@@ -189,12 +191,14 @@ class Server extends Activity{
     	        } catch (IOException e) {
     	            System.err.println("Couldn't get I/O for "
     	                               + "the connection to: " + serverHostname);
+    	           
     	          
     	    		x++;
     	            
     	           
     	           if (x==5)
     	           {
+    	        	   
     	            System.exit(1);
     	            
     	           }
