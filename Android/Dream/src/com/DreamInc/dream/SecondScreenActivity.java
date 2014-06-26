@@ -12,7 +12,6 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import android.R.string;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -27,11 +26,13 @@ import android.widget.Toast;
 public class SecondScreenActivity extends Activity {
 	public Server setupconnection = new Server();
 	public String[] commands;
+	
 
 	
 	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
       setContentView(R.layout.secondscreen);
       Button btnaction1 = (Button) findViewById(R.id.btnaction1);
       String type;
@@ -143,12 +144,10 @@ public class SecondScreenActivity extends Activity {
   					new AlertDialog.Builder(SecondScreenActivity.this).setTitle("Error").setMessage("Wrong username or passowrd").setNeutralButton("Close", null).show();
   				}
   				}
+  			
   		});
       }
-	public   void  error()
-	{
-		new AlertDialog.Builder(SecondScreenActivity.this).setTitle("Error").setMessage("could not connect to sever.").setNeutralButton("Close", null).show();
-	}
+	
 	
       
       
@@ -160,15 +159,17 @@ class Server extends Activity{
     public static  PrintWriter out = null;
     public static  BufferedReader in = null;
     public static String serverHostname = new String ("10.0.2.2");
-   
-
+       
+     
 	public static  void  setupconnection() 
 	{
 		
 
         System.out.println ("Attemping to connect to host " +
     			serverHostname + " on port 10008.");
-    	               
+        int x = 0;
+    	         do
+    	         {
     	        try {
     	            // echoSocket = new Socket("taranis", 7);
     	        	Log.d(null, "crash");
@@ -183,15 +184,21 @@ class Server extends Activity{
     	            
     	        } catch (UnknownHostException e) {
     	            System.err.println("Don't know about host: " + serverHostname);
+    	            x = 5;
     	            System.exit(1);
     	        } catch (IOException e) {
     	            System.err.println("Couldn't get I/O for "
     	                               + "the connection to: " + serverHostname);
-    	            SecondScreenActivity foo = new SecondScreenActivity();
-    	            foo.error();
+    	          
+    	    		x++;
+    	            
     	           
+    	           if (x==3)
+    	           {
     	            System.exit(1);
+    	           }
     	        }
+    	         }while(x!=0);
         
     	       System.out.println("connection established");
         Log.d(null, "msg83");
@@ -206,8 +213,7 @@ class Server extends Activity{
 		
 	try {
 		if(in.read()==-1){
-			SecondScreenActivity foo = new SecondScreenActivity();
-            foo.error();
+			
 			
 			Server.setupconnection();
 		}
@@ -252,8 +258,7 @@ class Server extends Activity{
 		do{
 			i++;
 			if (i>5){
-				SecondScreenActivity foo = new SecondScreenActivity();
-	            foo.error();
+				Server.setupconnection();
 	            i=0;
 			}
 		

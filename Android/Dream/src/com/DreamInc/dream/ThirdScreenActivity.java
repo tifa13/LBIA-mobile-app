@@ -3,6 +3,7 @@ package com.DreamInc.dream;
 //import com.DreamInc.dream.SecondScreenActivity.Server;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -21,9 +22,11 @@ public class ThirdScreenActivity extends Activity {
 	
 	
 	
+	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
       setContentView(R.layout.thirdscreen);
+     
       
       
        Intent i = getIntent();
