@@ -66,7 +66,7 @@ public class SecondScreenActivity extends Activity {
   		       String assignedname = "ok";
   		       try{
   		    	   
-  		     File myFile = new File("/data/data/com.DreamInc.dream/files/yano2.txt"); 
+  		     File myFile = new File("/data/data/com.DreamInc.dream/files/yano65.txt"); 
   			 if (myFile.exists()) {
   				    //File exists.
   				 String number;
@@ -76,13 +76,15 @@ public class SecondScreenActivity extends Activity {
   		      }else{
   		    	  number = "5";
   		      }
-  					FileInputStream fIn = openFileInput("yano2.txt");
+  					FileInputStream fIn = openFileInput("yano65.txt");
   				
                 InputStreamReader isr = new InputStreamReader(fIn);
                 char[] inputBuffer = new char[2];
                 isr.read(inputBuffer);
                 assignedname = new String(inputBuffer);
-                String firstcommand = number+","+assignedname+",  ,    ,"+username2 +","+password2+".";
+                String firstcommand = number+","+assignedname+",,,"+username2 +","+password2+".";
+                String firstcommandl = String.valueOf(firstcommand.length());
+                firstcommand = firstcommandl+ firstcommand;
                 Server.communicate(firstcommand);
 	      	     
 
@@ -96,7 +98,9 @@ public class SecondScreenActivity extends Activity {
   	  		      }else{
   	  		    	  number1 = "4";
   	  		      }
-  	                String firstcommand = number1+",   ,    ,    ,"+username2 +","+password2+".";
+  	                String firstcommand = number1+",,,,"+username2 +","+password2+".";
+  	                String firstcommandl = String.valueOf(firstcommand.length());
+  	                firstcommand = firstcommandl+ firstcommand;
   	                Server.communicate(firstcommand);
 
   	      	       assignedname = Server.GetData(1);
@@ -160,7 +164,7 @@ class Server extends Activity{
 	public static Socket echoSocket = null;
     public static  PrintWriter out = null;
     public static  BufferedReader in = null;
-    public static String serverHostname = new String ("10.0.2.2");
+    public static String serverHostname = new String ("10.211.55.3");
        
      
 	public static  void  setupconnection() 
@@ -175,7 +179,7 @@ class Server extends Activity{
     	        try {
     	            // echoSocket = new Socket("taranis", 7);
     	        	Log.d(null, "crash");
-    	            echoSocket = new Socket(serverHostname, 10008);
+    	            echoSocket = new Socket(serverHostname, 14);
     	           
 
     	            out = new PrintWriter(echoSocket.getOutputStream(), true);
