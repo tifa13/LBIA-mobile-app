@@ -83,7 +83,15 @@ public class SecondScreenActivity extends Activity {
                 isr.read(inputBuffer);
                 assignedname = new String(inputBuffer);
                 String firstcommand = number+","+assignedname+",,,"+username2 +","+password2+".";
-                String firstcommandl = String.valueOf(firstcommand.length());
+                int firstcommandi = firstcommand.length();
+                String firstcommandl;
+                if (firstcommandi<10)
+                {
+                	 firstcommandl = "0"+String.valueOf(firstcommand.length());
+                }else 
+                {
+                 firstcommandl = String.valueOf(firstcommand.length());
+                }
                 firstcommand = firstcommandl+ firstcommand;
                 Server.communicate(firstcommand);
 	      	     
@@ -99,7 +107,15 @@ public class SecondScreenActivity extends Activity {
   	  		    	  number1 = "4";
   	  		      }
   	                String firstcommand = number1+",,,,"+username2 +","+password2+".";
-  	                String firstcommandl = String.valueOf(firstcommand.length());
+  	                int firstcommandi = firstcommand.length();
+  	              String firstcommandl;
+                  if (firstcommandi<10)
+                  {
+                  	 firstcommandl = "0"+String.valueOf(firstcommand.length());
+                  }else 
+                  {
+                   firstcommandl = String.valueOf(firstcommand.length());
+                  }
   	                firstcommand = firstcommandl+ firstcommand;
   	                Server.communicate(firstcommand);
 

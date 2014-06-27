@@ -58,7 +58,15 @@ public class ThirdScreenActivity extends Activity {
 		            	if (z.equals("0")){
 		            		
 		            		 String commandon = "8,"+name+","+devices[+position]+",On,   ,   .";
-		            		 String commandonl = String.valueOf(commandon.length());
+		            		 int commandoni = commandon.length();
+		     	              String commandonl;
+		                     if (commandoni<10)
+		                     {
+		                     	 commandonl = "0"+String.valueOf(commandon.length());
+		                     }else 
+		                     {
+		                      commandonl = String.valueOf(commandon.length());
+		                     }
 		            		 commandon = commandonl + commandon;
 		            		 Server.communicate(commandon);
 		            		 String Confirmation = Server.GetData(3);
@@ -86,7 +94,15 @@ public class ThirdScreenActivity extends Activity {
 		            	}else{
 		            		
 		            		String commandoff = "8,"+name+","+devices[+position]+",Off,   ,   .";
-		            		String commandoffl = String.valueOf(commandoff.length());
+		            		int commandoffi = commandoff.length();
+		     	              String commandoffl;
+		                     if (commandoffi<10)
+		                     {
+		                     	 commandoffl = "0"+String.valueOf(commandoff.length());
+		                     }else 
+		                     {
+		                      commandoffl = String.valueOf(commandoff.length());
+		                     }
 		            		commandoff = commandoffl + commandoff;
 		            		 Server.communicate(commandoff);
 		            		 String Confirmation = Server.GetData(3);
