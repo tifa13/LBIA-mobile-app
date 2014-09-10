@@ -57,7 +57,7 @@ public class ThirdScreenActivity extends Activity {
 		            	
 		            	if (z.equals("0")){
 		            		
-		            		 String commandon = "8,"+name+","+devices[+position]+",On,   ,   .";
+		            		 String commandon = "8,"+name+","+devices[+position]+",On,   ,   ";
 		            		 int commandoni = commandon.length();
 		     	              String commandonl;
 		                     if (commandoni<10)
@@ -76,7 +76,7 @@ public class ThirdScreenActivity extends Activity {
 		            		    String[] listofstatus  = Server.GetCommands(2);
 		           		        devices = listofdevices;
 		           		        status = listofstatus;
-		           		        list.getChildAt(position).setBackgroundColor(Color.GREEN);
+		           		        list.getChildAt(position).setBackgroundColor(Color.GREEN);	
 		           		     	status[+position] =  "255" ;
 		            		 }
 		            		 if (Confirmation.equals("N"))
@@ -93,7 +93,7 @@ public class ThirdScreenActivity extends Activity {
 		            		 
 		            	}else{
 		            		
-		            		String commandoff = "8,"+name+","+devices[+position]+",Off,   ,   .";
+		            		String commandoff = "8,"+name+","+devices[+position]+",Off,   ,   ";
 		            		int commandoffi = commandoff.length();
 		     	              String commandoffl;
 		                     if (commandoffi<10)

@@ -66,7 +66,7 @@ public class SecondScreenActivity extends Activity {
   		       String assignedname = "ok";
   		       try{
   		    	   
-  		     File myFile = new File("/data/data/com.DreamInc.dream/files/yano65.txt"); 
+  		     File myFile = new File("/data/data/com.DreamInc.dream/files/yano666.txt"); 
   			 if (myFile.exists()) {
   				    //File exists.
   				 String number;
@@ -76,13 +76,13 @@ public class SecondScreenActivity extends Activity {
   		      }else{
   		    	  number = "5";
   		      }
-  					FileInputStream fIn = openFileInput("yano65.txt");
+  					FileInputStream fIn = openFileInput("yano666.txt");
   				
                 InputStreamReader isr = new InputStreamReader(fIn);
                 char[] inputBuffer = new char[2];
                 isr.read(inputBuffer);
                 assignedname = new String(inputBuffer);
-                String firstcommand = number+","+assignedname+",,,"+username2 +","+password2+".";
+                String firstcommand = number+","+assignedname+",,,"+username2 +","+password2;
                 int firstcommandi = firstcommand.length();
                 String firstcommandl;
                 if (firstcommandi<10)
@@ -106,7 +106,7 @@ public class SecondScreenActivity extends Activity {
   	  		      }else{
   	  		    	  number1 = "4";
   	  		      }
-  	                String firstcommand = number1+",,,,"+username2 +","+password2+".";
+  	                String firstcommand = number1+",,,,"+username2 +","+password2;
   	                int firstcommandi = firstcommand.length();
   	              String firstcommandl;
                   if (firstcommandi<10)
@@ -180,7 +180,7 @@ class Server extends Activity{
 	public static Socket echoSocket = null;
     public static  PrintWriter out = null;
     public static  BufferedReader in = null;
-    public static String serverHostname = new String ("10.211.55.3");
+    public static String serverHostname = new String ("10.40.4.221");
        
      
 	public static  void  setupconnection() 
@@ -295,7 +295,7 @@ class Server extends Activity{
 		}
 		ReceivedData = new String(buffer).trim();
 		Commands = ReceivedData.split(".!");
-	}while (Commands!= null);
+	}while (Commands== null);
 		return Commands;
 	}
 	
@@ -307,10 +307,10 @@ class Server extends Activity{
 		String assignedname = "tanash";
 		String answer = "tanash";
 		String Confirmation = "tanash";
-		for (int z = 0; z<=Commands.length ; z++)
+		for (int z = 0; z<Commands.length ; z++)
 		{
 			String checkcommand = Commands[z];
-			if(checkcommand.matches(("(^(1|4|5|6|7|8),.*,Y|N|\\d*,.*?,.*?)")))
+			if(checkcommand.matches(("^((1|4|5|6|7|8),\\d*,(Y|N|\\d*),\\d*,\\d*)")))
 			{
 				Commands2 = checkcommand.split(",");
 				 assignedname = Commands2[1];
@@ -353,10 +353,10 @@ class Server extends Activity{
 		 do{
 			 
 		 
-		for (int z = 0; z<=Commands.length ; z++)
+		for (int z = 0; z<Commands.length ; z++)
 		{
 			String checkcommand = Commands[z];
-			if(checkcommand.matches(("(^(1|4|5|6|7|8),.*,Y|N|\\d*,.*?,.*?)")))
+			if(checkcommand.matches(("^((1|4|5|6|7|8),\\d*,(Y|N|\\d*),\\d*,\\d*)")))
 			{
 				Commands2 = checkcommand.split(",");
 				
