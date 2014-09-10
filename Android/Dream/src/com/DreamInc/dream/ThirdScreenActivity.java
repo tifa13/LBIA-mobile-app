@@ -69,7 +69,8 @@ public class ThirdScreenActivity extends Activity {
 		                     }
 		            		 commandon = commandonl + commandon;
 		            		 Server.communicate(commandon);
-		            		 String Confirmation = Server.GetData(3);
+		            		 String[] info = Server.GetCommands(3);
+		            		 String Confirmation = info[1];
 		            		 if (Confirmation.equals("Y"))
 		            		 {
 		            		    String[] listofdevices = Server.GetCommands(1);
@@ -105,7 +106,8 @@ public class ThirdScreenActivity extends Activity {
 		                     }
 		            		commandoff = commandoffl + commandoff;
 		            		 Server.communicate(commandoff);
-		            		 String Confirmation = Server.GetData(3);
+		            		 String[] info = Server.GetCommands(3);
+		            		 String Confirmation = info[1];
 		            		 if (Confirmation.equals("Y"))
 		            		 {
 		            		    String[] listofdevices = Server.GetCommands(1);
@@ -113,6 +115,7 @@ public class ThirdScreenActivity extends Activity {
 		           		        devices = listofdevices;
 		           		        status = listofstatus;
 		           		        list.getChildAt(position).setBackgroundColor(Color.TRANSPARENT);
+		           		        
 		           		     	status[+position] =  "0" ;
 		            		 }
 		            		 if (Confirmation.equals("N"))

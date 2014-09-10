@@ -119,7 +119,8 @@ public class SecondScreenActivity extends Activity {
   	                firstcommand = firstcommandl+ firstcommand;
   	                Server.communicate(firstcommand);
 
-  	      	       assignedname = Server.GetData(1);
+  	      	       String[] info = Server.GetCommands(3);
+  	      	       assignedname = info[0];
   			
 
   					FileOutputStream fOut = openFileOutput("yano2.txt", 0);				
@@ -132,8 +133,8 @@ public class SecondScreenActivity extends Activity {
   		       }catch (IOException ioe) {
   	             ioe.printStackTrace();
   			 }
-  	      
-  		     String clear = Server.GetData(2);
+  		     String[] info = Server.GetCommands(3);
+  		     String clear = info[1];
   		    	   
   				
   				if(clear.equals("Y")){
@@ -300,7 +301,9 @@ class Server extends Activity{
 	}
 	
 	
-	public static String GetData(int x)
+	
+	
+	/*public static String GetData(int x)
 	{
 		String[] Commands = Server.GetCommandsfromData();
 		String[] Commands2;
@@ -339,13 +342,14 @@ class Server extends Activity{
 			reply = Confirmation;
 		}
 		return reply;
-	}
+	}*/
 	
 	
 	public static String[] GetCommands(int x)
 	{
 		String[] Commands = Server.GetCommandsfromData();
 		String[] Commands2;
+		String[] rafaye3 = null ;
 		String[] listofdevices = null;
 		String[] listofstates = null;
 		String[] list = null;
@@ -370,9 +374,23 @@ class Server extends Activity{
 					listofstates[f] = states;
 					f++;
 				}
+				 //assignedname = Commands2[1];
+				 rafaye3[0] = Commands2[1];
+					if (Commands2[0].equals("4")|Commands2[0].equals("5")|Commands2[0].equals("6")|Commands2[0].equals("7")){
+						 //answer = Commands2[2];
+						rafaye3[1]= Commands2[2];
+						
+					}
+					if (Commands2[0].equals("8"))
+					{
+						//Confirmation = Commands2[2];
+						rafaye3[1]= Commands2[2];
+					}
 				
 				
 			}
+			
+			
 		}
 		 }while(Commands!=null);
 		if (x==1)
@@ -382,6 +400,10 @@ class Server extends Activity{
 		if (x==2)
 		{
 			list = listofstates;
+		}
+		if (x==3)
+		{
+			list = rafaye3;
 		}
 		return list;
 	}
