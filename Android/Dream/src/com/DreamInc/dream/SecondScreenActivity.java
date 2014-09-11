@@ -344,7 +344,14 @@ class Server extends Activity{
 		return reply;
 	}*/
 	
-	
+	/*public static String[] modifylist(int x , String[]devices , String[]status , String device , String status1 )
+	{
+		if (x ==1 )//add
+		{
+			S
+		}
+		return status;
+	}*/
 	public static String[] GetCommands(int x)
 	{
 		String[] Commands = Server.GetCommandsfromData();

@@ -2,6 +2,9 @@ package com.DreamInc.dream;
 
 //import com.DreamInc.dream.SecondScreenActivity.Server;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -17,7 +20,10 @@ public class ThirdScreenActivity extends Activity {
 	ListView listView;
 	String[] devices;
 	String[] status;
+	String[] devices2;
+	String[] status2;
 	public String z;
+	int ff = 0;
 	
 	
 	
@@ -32,11 +38,24 @@ public class ThirdScreenActivity extends Activity {
        Intent i = getIntent();
        devices = i.getStringArrayExtra("devices");
      status = i.getStringArrayExtra("status");
-   
+     Map<String,String> map = new HashMap<String,String>();
+     
+     for (int x=0 ; x<devices.length ; x++)
+     {
+    	map.put(devices[x], status[x]); 
+     }
+     for (Map.Entry<String, String> entry : map.entrySet())
+		{
+		    System.out.println(entry.getKey() + "/" + entry.getValue());
+		    devices2[ff] = entry.getKey();
+		    status2[ff] = entry.getValue();
+		    ff++;
+		}
+     ff=0;
       
       final String name = i.getStringExtra("devicename");
       Button btnsignout = (Button) findViewById(R.id.btnsignout);
-
+      
    
       
       
@@ -60,6 +79,7 @@ public class ThirdScreenActivity extends Activity {
 		            		 String commandon = "8,"+name+","+devices[+position]+",On,   ,   ";
 		            		 int commandoni = commandon.length();
 		     	              String commandonl;
+		     	             
 		                     if (commandoni<10)
 		                     {
 		                     	 commandonl = "0"+String.valueOf(commandon.length());
@@ -74,6 +94,14 @@ public class ThirdScreenActivity extends Activity {
 		            		 if (Confirmation.equals("Y"))
 		            		 {
 		            		    String[] listofdevices = Server.GetCommands(1);
+		            		    /*
+		            		     String[] update = Server.GetCommands(4);
+		            		     int num = listofdevices.length;
+		            		     if ( update[0].equals("1"))
+		            		     {
+		            		    	 
+		            		     }
+		            		     */
 		            		    String[] listofstatus  = Server.GetCommands(2);
 		           		        devices = listofdevices;
 		           		        status = listofstatus;

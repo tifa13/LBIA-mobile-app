@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+
+
 public class CustomList extends ArrayAdapter<String>{
 	
 private final Activity context;
