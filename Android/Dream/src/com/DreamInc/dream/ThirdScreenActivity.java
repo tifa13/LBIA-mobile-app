@@ -63,7 +63,7 @@ public class ThirdScreenActivity extends Activity {
       
      
       CustomList adapter = new
-				CustomList(ThirdScreenActivity.this, devices, status );
+				CustomList(ThirdScreenActivity.this, devices2, status2 );
        final ListView list =(ListView) findViewById(R.id.list);
 				list.setAdapter(adapter);
 				list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -72,11 +72,11 @@ public class ThirdScreenActivity extends Activity {
 		            public void onItemClick(AdapterView<?> parent, View view,
 		                                    int position, long id) {
 		            	
-		            	 z = status[position];
+		            	 z = status2[position];
 		            	
 		            	if (z.equals("0")){
 		            		
-		            		 String commandon = "8,"+name+","+devices[+position]+",On,   ,   ";
+		            		 String commandon = "8,"+name+","+devices2[+position]+",On,   ,   ";
 		            		 int commandoni = commandon.length();
 		     	              String commandonl;
 		     	             
@@ -93,20 +93,8 @@ public class ThirdScreenActivity extends Activity {
 		            		 String Confirmation = info[1];
 		            		 if (Confirmation.equals("Y"))
 		            		 {
-		            		    String[] listofdevices = Server.GetCommands(1);
-		            		    /*
-		            		     String[] update = Server.GetCommands(4);
-		            		     int num = listofdevices.length;
-		            		     if ( update[0].equals("1"))
-		            		     {
-		            		    	 
-		            		     }
-		            		     */
-		            		    String[] listofstatus  = Server.GetCommands(2);
-		           		        devices = listofdevices;
-		           		        status = listofstatus;
 		           		        list.getChildAt(position).setBackgroundColor(Color.GREEN);	
-		           		     	status[+position] =  "255" ;
+		           		     	status2[+position] =  "255" ;
 		            		 }
 		            		 if (Confirmation.equals("N"))
 		            		 {
@@ -122,7 +110,7 @@ public class ThirdScreenActivity extends Activity {
 		            		 
 		            	}else{
 		            		
-		            		String commandoff = "8,"+name+","+devices[+position]+",Off,   ,   ";
+		            		String commandoff = "8,"+name+","+devices2[+position]+",Off,   ,   ";
 		            		int commandoffi = commandoff.length();
 		     	              String commandoffl;
 		                     if (commandoffi<10)
@@ -138,13 +126,10 @@ public class ThirdScreenActivity extends Activity {
 		            		 String Confirmation = info[1];
 		            		 if (Confirmation.equals("Y"))
 		            		 {
-		            		    String[] listofdevices = Server.GetCommands(1);
-		            		    String[] listofstatus  = Server.GetCommands(2);
-		           		        devices = listofdevices;
-		           		        status = listofstatus;
+		            		    
 		           		        list.getChildAt(position).setBackgroundColor(Color.TRANSPARENT);
 		           		        
-		           		     	status[+position] =  "0" ;
+		           		     	status2[+position] =  "0" ;
 		            		 }
 		            		 if (Confirmation.equals("N"))
 		            		 {
@@ -169,10 +154,32 @@ public class ThirdScreenActivity extends Activity {
 		  			}
 				});
 				
-				String[] listofdevices = Server.GetCommands(1);
-    		    String[] listofstatus  = Server.GetCommands(2);
-   		        devices = listofdevices;
-   		        status = listofstatus;
+				
+    		    String[] modification = Server.GetCommands(4);
+    		    if (modification!=null)
+    		    {
+    		    	
+    		    
+    		    String mm = modification[0];
+    		    if (mm.equals("1")|(mm.equals("3")))
+    		    {
+    		    	map.put(modification[1], modification[2]);
+    		    }
+    		    if (mm.equals("2"))
+    		    {
+    		    	map.remove(modification[1]);
+    		    }
+    		    
+    		    for (Map.Entry<String, String> entry : map.entrySet())
+    			{
+    			    //System.out.println(entry.getKey() + "/" + entry.getValue());
+    			    devices2[ff] = entry.getKey();
+    			    status2[ff] = entry.getValue();
+    			    ff++;
+    			}
+    	     ff=0;
+   		        
+	 }
        		 }
 				
 				

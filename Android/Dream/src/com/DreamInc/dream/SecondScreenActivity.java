@@ -11,11 +11,16 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Dictionary;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.DropBoxManager.Entry;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -181,7 +186,7 @@ class Server extends Activity{
 	public static Socket echoSocket = null;
     public static  PrintWriter out = null;
     public static  BufferedReader in = null;
-    public static String serverHostname = new String ("10.40.4.221");
+    public static String serverHostname = new String ("10.40.47.54");
        
      
 	public static  void  setupconnection() 
@@ -348,7 +353,20 @@ class Server extends Activity{
 	{
 		if (x ==1 )//add
 		{
-			S
+			//Dictionary<String, String> dic = new Dictionary<String, String>();
+			Map<String,String> map = new HashMap<String,String>();
+			//map.put(key, value)
+			map.get("hi");
+			
+			String[] baha2;
+			
+			for (Map.Entry<String, String> entry : map.entrySet())
+			{
+			    System.out.println(entry.getKey() + "/" + entry.getValue());
+			}
+			
+			baha2[0] =  + "------ " + map.get(devices[0]);
+					
 		}
 		return status;
 	}*/
@@ -357,6 +375,7 @@ class Server extends Activity{
 		String[] Commands = Server.GetCommandsfromData();
 		String[] Commands2;
 		String[] rafaye3 = null ;
+		String[] modification = null;
 		String[] listofdevices = null;
 		String[] listofstates = null;
 		String[] list = null;
@@ -367,7 +386,7 @@ class Server extends Activity{
 		for (int z = 0; z<Commands.length ; z++)
 		{
 			String checkcommand = Commands[z];
-			if(checkcommand.matches(("^((1|4|5|6|7|8),\\d*,(Y|N|\\d*),\\d*,\\d*)")))
+			if(checkcommand.matches(("^((1|4|5|6|7|8|9),\\d*,(Y|N|\\d*),\\d*,\\d*)")))
 			{
 				Commands2 = checkcommand.split(",");
 				
@@ -382,7 +401,7 @@ class Server extends Activity{
 					f++;
 				}
 				 //assignedname = Commands2[1];
-				 rafaye3[0] = Commands2[1];
+				rafaye3[0]  = Commands2[1];
 					if (Commands2[0].equals("4")|Commands2[0].equals("5")|Commands2[0].equals("6")|Commands2[0].equals("7")){
 						 //answer = Commands2[2];
 						rafaye3[1]= Commands2[2];
@@ -392,6 +411,12 @@ class Server extends Activity{
 					{
 						//Confirmation = Commands2[2];
 						rafaye3[1]= Commands2[2];
+					}
+					if (Commands2[0].equals("9"))
+					{
+						modification[0] = Commands2[2];
+						modification[1] = Commands2[4];
+						modification[2] = Commands2[5];
 					}
 				
 				
@@ -411,6 +436,10 @@ class Server extends Activity{
 		if (x==3)
 		{
 			list = rafaye3;
+		}
+		if (x==4)
+		{
+			list = modification;
 		}
 		return list;
 	}
