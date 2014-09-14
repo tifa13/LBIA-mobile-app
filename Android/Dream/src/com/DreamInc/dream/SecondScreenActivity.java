@@ -64,17 +64,14 @@ public class SecondScreenActivity extends Activity {
   				
   				
   				 final EditText username = (EditText) findViewById(R.id.inputusername);
-
-  				 final EditText password = (EditText) findViewById(R.id.inputpassword);	
-
-
+  			      final EditText password = (EditText) findViewById(R.id.inputpassword);	
   				 String username2 = username.getText().toString();
   			       String password2 = password.getText().toString();
   			      Server.setupconnection();
   		       String assignedname = "ok";
   		       try{
   		    	   
-  		     File myFile = new File("/sdcard/yano2.txt"); 
+  		     File myFile = new File("/data/data/com.DreamInc.dream/files/yano666.txt"); 
   			 if (myFile.exists()) {
   				    //File exists.
   				 String number;
@@ -84,7 +81,7 @@ public class SecondScreenActivity extends Activity {
   		      }else{
   		    	  number = "5";
   		      }
-  					FileInputStream fIn = openFileInput("yano2.txt");
+  					FileInputStream fIn = openFileInput("yano666.txt");
   				
                 InputStreamReader isr = new InputStreamReader(fIn);
                 char[] inputBuffer = new char[2];
@@ -188,7 +185,7 @@ class Server extends Activity{
 	public static Socket echoSocket = null;
     public static  PrintWriter out = null;
     public static  BufferedReader in = null;
-    public static String serverHostname = new String ("10.40.47.71");
+    public static String serverHostname = new String ("10.40.47.54");
        
      
 	public static  void  setupconnection() 
@@ -203,7 +200,7 @@ class Server extends Activity{
     	        try {
     	            // echoSocket = new Socket("taranis", 7);
     	        	Log.d(null, "crash");
-    	             echoSocket = new Socket(serverHostname, 14);
+    	            echoSocket = new Socket(serverHostname, 14);
     	           
 
     	            out = new PrintWriter(echoSocket.getOutputStream(), true);
