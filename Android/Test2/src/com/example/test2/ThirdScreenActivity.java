@@ -163,7 +163,7 @@ public class ThirdScreenActivity extends Activity implements OnClickListener {
     	public Socket echoSocket = null;
         public PrintWriter out = null;
         public BufferedReader in = null;
-        public String serverHostname = new String ("10.0.2.2");
+        public String serverHostname = new String ("10.211.55.3");
         
         public void startconnection()
         {      
@@ -172,7 +172,7 @@ public class ThirdScreenActivity extends Activity implements OnClickListener {
 	               
 	        try {
 	            // echoSocket = new Socket("taranis", 7);
-	            echoSocket = new Socket(serverHostname, 10008);
+	            echoSocket = new Socket(serverHostname, 14);
 	            out = new PrintWriter(echoSocket.getOutputStream(), true);
 	            in = new BufferedReader(new InputStreamReader(
 	                                        echoSocket.getInputStream()));

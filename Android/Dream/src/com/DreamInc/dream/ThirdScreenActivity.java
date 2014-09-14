@@ -126,12 +126,12 @@ public class ThirdScreenActivity extends Activity {
 		            		 {
 		            		    
 		           		        list.getChildAt(position).setBackgroundColor(Color.TRANSPARENT);
-<<<<<<< HEAD
+
 		           		        
 		           		     	status2[+position] =  "0" ;
-=======
+
 		           		     	status[+position] =  "0" ;
->>>>>>> parent of bae1fb2... new command code
+
 		            		 }
 		            		 if (Confirmation.equals("N"))
 		            		 {

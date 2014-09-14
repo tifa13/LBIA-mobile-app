@@ -185,7 +185,7 @@ class Server extends Activity{
 	public static Socket echoSocket = null;
     public static  PrintWriter out = null;
     public static  BufferedReader in = null;
-    public static String serverHostname = new String ("10.40.47.54");
+    public static String serverHostname = new String ("10.0.2.2");
        
      
 	public static  void  setupconnection() 
@@ -371,11 +371,8 @@ class Server extends Activity{
 	{
 		String[] Commands = Server.GetCommandsfromData();
 		String[] Commands2;
-<<<<<<< HEAD
 		String[] rafaye3 = null ;
 		String[] modification = null;
-=======
->>>>>>> parent of bae1fb2... new command code
 		String[] listofdevices = null;
 		String[] listofstates = null;
 		String[] list = null;
@@ -400,7 +397,7 @@ class Server extends Activity{
 					listofstates[f] = states;
 					f++;
 				}
-<<<<<<< HEAD
+
 				 //assignedname = Commands2[1];
 				rafaye3[0]  = Commands2[1];
 					if (Commands2[0].equals("4")|Commands2[0].equals("5")|Commands2[0].equals("6")|Commands2[0].equals("7")){
@@ -419,8 +416,7 @@ class Server extends Activity{
 						modification[1] = Commands2[4];
 						modification[2] = Commands2[5];
 					}
-=======
->>>>>>> parent of bae1fb2... new command code
+
 				
 				
 			}
@@ -434,7 +430,7 @@ class Server extends Activity{
 		{
 			list = listofstates;
 		}
-<<<<<<< HEAD
+
 		if (x==3)
 		{
 			list = rafaye3;
@@ -443,8 +439,7 @@ class Server extends Activity{
 		{
 			list = modification;
 		}
-=======
->>>>>>> parent of bae1fb2... new command code
+
 		return list;
 	}
 			
