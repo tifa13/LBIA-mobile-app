@@ -127,8 +127,7 @@ public class SecondScreenActivity extends Activity {
   	                firstcommand = firstcommandl+ firstcommand;
   	                Server.communicate(firstcommand);
 
-  	      	       String[] info = Server.GetCommands(3);
-  	      	       assignedname = info[0];
+  	      	       assignedname = Server.GetData(1);
   			
 
   					FileOutputStream fOut = openFileOutput("yano2.txt", 0);				
@@ -141,8 +140,8 @@ public class SecondScreenActivity extends Activity {
   		       }catch (IOException ioe) {
   	             ioe.printStackTrace();
   			 }
-  		     String[] info = Server.GetCommands(3);
-  		     String clear = info[1];
+  	      
+  		     String clear = Server.GetData(2);
   		    	   
   				
   				if(clear.equals("Y")){
@@ -309,9 +308,7 @@ class Server extends Activity{
 	}
 	
 	
-	
-	
-	/*public static String GetData(int x)
+	public static String GetData(int x)
 	{
 		String[] Commands = Server.GetCommandsfromData();
 		String[] Commands2;
@@ -350,7 +347,7 @@ class Server extends Activity{
 			reply = Confirmation;
 		}
 		return reply;
-	}*/
+	}
 	
 	/*public static String[] modifylist(int x , String[]devices , String[]status , String device , String status1 )
 	{
@@ -377,8 +374,11 @@ class Server extends Activity{
 	{
 		String[] Commands = Server.GetCommandsfromData();
 		String[] Commands2;
+<<<<<<< HEAD
 		String[] rafaye3 = null ;
 		String[] modification = null;
+=======
+>>>>>>> parent of bae1fb2... new command code
 		String[] listofdevices = null;
 		String[] listofstates = null;
 		String[] list = null;
@@ -403,6 +403,7 @@ class Server extends Activity{
 					listofstates[f] = states;
 					f++;
 				}
+<<<<<<< HEAD
 				 //assignedname = Commands2[1];
 				rafaye3[0]  = Commands2[1];
 					if (Commands2[0].equals("4")|Commands2[0].equals("5")|Commands2[0].equals("6")|Commands2[0].equals("7")){
@@ -421,11 +422,11 @@ class Server extends Activity{
 						modification[1] = Commands2[4];
 						modification[2] = Commands2[5];
 					}
+=======
+>>>>>>> parent of bae1fb2... new command code
 				
 				
 			}
-			
-			
 		}
 		 }while(Commands!=null);
 		if (x==1)
@@ -436,6 +437,7 @@ class Server extends Activity{
 		{
 			list = listofstates;
 		}
+<<<<<<< HEAD
 		if (x==3)
 		{
 			list = rafaye3;
@@ -444,6 +446,8 @@ class Server extends Activity{
 		{
 			list = modification;
 		}
+=======
+>>>>>>> parent of bae1fb2... new command code
 		return list;
 	}
 			

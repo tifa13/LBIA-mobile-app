@@ -89,8 +89,7 @@ public class ThirdScreenActivity extends Activity {
 		                     }
 		            		 commandon = commandonl + commandon;
 		            		 Server.communicate(commandon);
-		            		 String[] info = Server.GetCommands(3);
-		            		 String Confirmation = info[1];
+		            		 String Confirmation = Server.GetData(3);
 		            		 if (Confirmation.equals("Y"))
 		            		 {
 		           		        list.getChildAt(position).setBackgroundColor(Color.GREEN);	
@@ -122,14 +121,17 @@ public class ThirdScreenActivity extends Activity {
 		                     }
 		            		commandoff = commandoffl + commandoff;
 		            		 Server.communicate(commandoff);
-		            		 String[] info = Server.GetCommands(3);
-		            		 String Confirmation = info[1];
+		            		 String Confirmation = Server.GetData(3);
 		            		 if (Confirmation.equals("Y"))
 		            		 {
 		            		    
 		           		        list.getChildAt(position).setBackgroundColor(Color.TRANSPARENT);
+<<<<<<< HEAD
 		           		        
 		           		     	status2[+position] =  "0" ;
+=======
+		           		     	status[+position] =  "0" ;
+>>>>>>> parent of bae1fb2... new command code
 		            		 }
 		            		 if (Confirmation.equals("N"))
 		            		 {
