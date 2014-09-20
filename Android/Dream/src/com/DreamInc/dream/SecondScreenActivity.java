@@ -186,7 +186,7 @@ class Server extends Activity{
 	public static Socket echoSocket = null;
     public static  PrintWriter out = null;
     public static  BufferedReader in = null;
-    public static String serverHostname = new String ("10.40.47.54");
+    public static String serverHostname = new String ("192.168.1.2");
        
      
 	public static  void  setupconnection() 
