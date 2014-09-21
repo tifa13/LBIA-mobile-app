@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -20,8 +19,8 @@ public class ThirdScreenActivity extends Activity {
 	ListView listView;
 	String[] devices;
 	String[] status;
-	String[] devices2;
-	String[] status2;
+	String[] devices2 = new String[1];
+	String[] status2 = new String[1];
 	public String z;
 	int ff = 0;
 	
@@ -38,19 +37,31 @@ public class ThirdScreenActivity extends Activity {
        Intent i = getIntent();
        devices = i.getStringArrayExtra("devices");
      status = i.getStringArrayExtra("status");
-     Map<String,String> map = new HashMap<String,String>();
-     
+    
+     final Map<String,String> map = new HashMap<String,String>();
+          
      for (int x=0 ; x<devices.length ; x++)
      {
     	map.put(devices[x], status[x]); 
      }
-     for (Map.Entry<String, String> entry : map.entrySet())
+     
+     for ( String key : map.keySet() ) {
+ 	    System.out.println( key );
+ 	    System.out.println(map.get(key));
+ 	    String value = map.get(key);
+ 	    devices2[ff] = key;
+ 	    status2[ff] = value;
+ 	    ff++;
+ 	}
+
+    
+     /*for (int rr = 0 ; rr<map.size() ; rr++)
 		{
-		    System.out.println(entry.getKey() + "/" + entry.getValue());
-		    devices2[ff] = entry.getKey();
+		    //System.out.println(entry.getKey() + "/" + entry.getValue());
+    	    devices2[ff] = entry.getKey();
 		    status2[ff] = entry.getValue();
 		    ff++;
-		}
+		}*/
      ff=0;
       
       final String name = i.getStringExtra("devicename");
@@ -72,11 +83,23 @@ public class ThirdScreenActivity extends Activity {
 		            public void onItemClick(AdapterView<?> parent, View view,
 		                                    int position, long id) {
 		            	
-		            	 z = status2[position];
 		            	
-		            	if (z.equals("0")){
+		            	z = status2[position];
+		            	
+		            	if ((z.equals("48"))|(z.equals("50"))|(z.equals("51"))){
+
+		            		/*
+		            		 int rr = Integer.parseInt(name);
+		            		 
+		            		byte[] rr_bytes = ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(rr).array();
+		            		String newname = new StringBuilder().append((char)rr_bytes[0]).append((char)rr_bytes[1]).toString();
 		            		
-		            		 String commandon = "8,"+name+","+devices2[+position]+",On,   ,   ";
+		            		int zz = Integer.parseInt(devices2[+position]);
+		            		byte[] zz_bytes = ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(zz).array();
+		            		String newdevice = new StringBuilder().append((char)zz_bytes[0]).append((char)zz_bytes[1]).toString();
+		            		*/
+		            		 String commandon = "8,"+name+","+devices[+position]+",1,,";
+		            		 
 		            		 int commandoni = commandon.length();
 		     	              String commandonl;
 		     	             
@@ -89,27 +112,72 @@ public class ThirdScreenActivity extends Activity {
 		                     }
 		            		 commandon = commandonl + commandon;
 		            		 Server.communicate(commandon);
-		            		 String Confirmation = Server.GetData(3);
+		            		 //String[] rafaye3 = Server.GetCommands(3);
+		            		 //String Confirmation = rafaye3[2];
+		            		 String[] modification = Server.GetCommands(4);
+				    		    if (modification[0]!=null)
+				    		    {
+				    		    	
+				    		    
+				    		    String mm = modification[0];
+				    		    if (mm.equals("1")|(mm.equals("3")))
+				    		    {
+				    		    	map.put(modification[1], modification[2]);
+				    		    	list.getChildAt(position).setBackgroundColor(Color.GREEN);	
+				    		    	status2[+position]="49";
+				    		    }
+				    		    if (mm.equals("2"))
+				    		    {
+				    		    	map.remove(modification[1]);
+				    		    }
+				    		    for ( String key : map.keySet() ) {
+				    		 	    System.out.println( key );
+				    		 	    System.out.println(map.get(key));
+				    		 	    String value = map.get(key);
+				    		 	    devices2[ff] = key;
+				    		 	    status2[ff] = value;
+				    		 	    ff++;
+				    		 	}
+				    		    }
+		            		/* if (Confirmation != null)
+		            		 {
+		            			 
+		            		 
 		            		 if (Confirmation.equals("Y"))
 		            		 {
 		           		        list.getChildAt(position).setBackgroundColor(Color.GREEN);	
-		           		     	status2[+position] =  "255" ;
-		            		 }
-		            		 if (Confirmation.equals("N"))
+		           		     	status2[+position] =  "49" ;
+		            		 }*/
+		            		 if ((status2[+position]=="48")|(status2[+position]=="50")|(status2[+position]=="51"))
 		            		 {
 		            			 String feedback1 = "Command can't be executed. Please try again later";
 		            			 Toast.makeText(getApplicationContext(),
 			                             feedback1, Toast.LENGTH_LONG)
 			                          .show();
 		            		 }
+		            		 }
+		            		 /*else {
+		            			 String feedback1 = "Server is not responding :(";
+		            			 Toast.makeText(getApplicationContext(),
+			                             feedback1, Toast.LENGTH_LONG)
+			                          .show();
+		            		 }*/
 		            		 
 		            		 
 		            		 
 		            		 
 		            		 
-		            	}else{
+		            	else{
+		            		/*int rr = Integer.parseInt(name);
+		            		byte[] rr_bytes = ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(rr).array();
+		            		String newname = new StringBuilder().append((char)rr_bytes[0]).append((char)rr_bytes[1]).toString();
 		            		
-		            		String commandoff = "8,"+name+","+devices2[+position]+",Off,   ,   ";
+		            		int zz = Integer.parseInt(devices2[+position]);
+		            		byte[] zz_bytes = ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(zz).array();
+		            		String newdevice = new StringBuilder().append((char)zz_bytes[0]).append((char)zz_bytes[1]).toString();
+		            		*/
+		            		
+		            		String commandoff = "8,"+name+","+devices2[+position]+",0,,";
 		            		int commandoffi = commandoff.length();
 		     	              String commandoffl;
 		                     if (commandoffi<10)
@@ -121,30 +189,95 @@ public class ThirdScreenActivity extends Activity {
 		                     }
 		            		commandoff = commandoffl + commandoff;
 		            		 Server.communicate(commandoff);
-		            		 String Confirmation = Server.GetData(3);
+		            		 String[] modification = Server.GetCommands(4);
+				    		    if (modification[0]!=null)
+				    		    {
+				    		    	
+				    		    
+				    		    String mm = modification[0];
+				    		    if (mm.equals("1")|(mm.equals("3")))
+				    		    {
+				    		    	map.put(modification[1], modification[2]);
+				    		    	list.getChildAt(position).setBackgroundColor(Color.TRANSPARENT);
+				    		    	status2[+position]="48";
+				    		    }
+				    		    if (mm.equals("2"))
+				    		    {
+				    		    	map.remove(modification[1]);
+				    		    }
+				    		    for ( String key : map.keySet() ) {
+				    		 	    System.out.println( key );
+				    		 	    System.out.println(map.get(key));
+				    		 	    String value = map.get(key);
+				    		 	    devices2[ff] = key;
+				    		 	    status2[ff] = value;
+				    		 	    ff++;
+				    		 	}
+				    		    }
+				    		    /*
+		            		 if (Confirmation != null){
+		            			 
+		            		
 		            		 if (Confirmation.equals("Y"))
 		            		 {
 		            		    
 		           		        list.getChildAt(position).setBackgroundColor(Color.TRANSPARENT);
 
 		           		        
-		           		     	status2[+position] =  "0" ;
+		           		     	status2[+position] =  "48" ;
 
-		           		     	status[+position] =  "0" ;
+		           		     	
 
-		            		 }
-		            		 if (Confirmation.equals("N"))
+		            		 
+		            		 }*/
+		            		 if (status2[+position]=="49")
 		            		 {
 		            			 String feedback1 = "Command can't be executed. Please try again later";
 		            			 Toast.makeText(getApplicationContext(),
 			                             feedback1, Toast.LENGTH_LONG)
 			                          .show();
 		            		 }
-		            	}
+		            		 }
+		            		 
+		            	
+		            	
+		    		    
+		    		    /*for (Map.Entry<String, String> entry : map.entrySet())
+		    			{
+		    			    //System.out.println(entry.getKey() + "/" + entry.getValue());
+		    			    devices2[ff] = entry.getKey();
+		    			    status2[ff] = entry.getValue();
+		    			    ff++;
+		    			}*/
+		    	     ff=0;
+		    	     String[] modification = Server.GetCommands(4);
+		    		    if (modification[0]!=null)
+		    		    {
+		    		    	
+		    		    
+		    		    String mm = modification[0];
+		    		    if (mm.equals("1")|(mm.equals("3")))
+		    		    {
+		    		    	map.put(modification[1], modification[2]);
+		    		    }
+		    		    if (mm.equals("2"))
+		    		    {
+		    		    	map.remove(modification[1]);
+		    		    }
+		    		    for ( String key : map.keySet() ) {
+		    		 	    System.out.println( key );
+		    		 	    System.out.println(map.get(key));
+		    		 	    String value = map.get(key);
+		    		 	    devices2[ff] = key;
+		    		 	    status2[ff] = value;
+		    		 	    ff++;
+		    		 	}
+		    		    }
+		    		    }
 		                
 
 		            }
-		        });
+		        );
 				btnsignout.setOnClickListener(new View.OnClickListener() {
 		  			
 		  			@Override
@@ -157,31 +290,7 @@ public class ThirdScreenActivity extends Activity {
 				});
 				
 				
-    		    String[] modification = Server.GetCommands(4);
-    		    if (modification!=null)
-    		    {
-    		    	
     		    
-    		    String mm = modification[0];
-    		    if (mm.equals("1")|(mm.equals("3")))
-    		    {
-    		    	map.put(modification[1], modification[2]);
-    		    }
-    		    if (mm.equals("2"))
-    		    {
-    		    	map.remove(modification[1]);
-    		    }
-    		    
-    		    for (Map.Entry<String, String> entry : map.entrySet())
-    			{
-    			    //System.out.println(entry.getKey() + "/" + entry.getValue());
-    			    devices2[ff] = entry.getKey();
-    			    status2[ff] = entry.getValue();
-    			    ff++;
-    			}
-    	     ff=0;
-   		        
-	 }
        		 }
 				
 				

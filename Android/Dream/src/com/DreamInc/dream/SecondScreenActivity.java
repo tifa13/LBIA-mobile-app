@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -18,6 +19,7 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.DropBoxManager.Entry;
@@ -69,76 +71,29 @@ public class SecondScreenActivity extends Activity {
   			       String password2 = password.getText().toString();
   			      Server.setupconnection();
   		       String assignedname = "ok";
-  		       try{
-  		    	   
-  		     File myFile = new File("/data/data/com.DreamInc.dream/files/yano666.txt"); 
-  			 if (myFile.exists()) {
-  				    //File exists.
-  				 String number;
-  				if(type2.equals("su"))
-  		      {
-  		    	   number = "7";
-  		      }else{
-  		    	  number = "5";
-  		      }
-  					FileInputStream fIn = openFileInput("yano666.txt");
-  				
-                InputStreamReader isr = new InputStreamReader(fIn);
-                char[] inputBuffer = new char[2];
-                isr.read(inputBuffer);
-                assignedname = new String(inputBuffer);
-                String firstcommand = number+","+assignedname+",,,"+username2 +","+password2;
-                int firstcommandi = firstcommand.length();
-                String firstcommandl;
-                if (firstcommandi<10)
-                {
-                	 firstcommandl = "0"+String.valueOf(firstcommand.length());
-                }else 
-                {
-                 firstcommandl = String.valueOf(firstcommand.length());
-                }
-                firstcommand = firstcommandl+ firstcommand;
-                Server.communicate(firstcommand);
-	      	     
-
-  			 }
-  				 else {
-  				    //File does not exist.
-  					 String number1;
-  					if(type2.equals("su"))
-  	  		      {
-  	  		    	   number1 = "6";
-  	  		      }else{
-  	  		    	  number1 = "4";
-  	  		      }
-  	                String firstcommand = number1+",,,,"+username2 +","+password2;
-  	                int firstcommandi = firstcommand.length();
-  	              String firstcommandl;
-                  if (firstcommandi<10)
-                  {
-                  	 firstcommandl = "0"+String.valueOf(firstcommand.length());
-                  }else 
-                  {
-                   firstcommandl = String.valueOf(firstcommand.length());
-                  }
-  	                firstcommand = firstcommandl+ firstcommand;
-  	                Server.communicate(firstcommand);
-
-  	      	       assignedname = Server.GetData(1);
-  			
-
-  					FileOutputStream fOut = openFileOutput("yano2.txt", 0);				
-  					OutputStreamWriter osw = new OutputStreamWriter(fOut);	
-  					osw.write(assignedname);
-  					 osw.flush();
-                     osw.close();
-  				 }
-  				
-  		       }catch (IOException ioe) {
-  	             ioe.printStackTrace();
-  			 }
+  		       String number1;
+				if(type2.equals("su"))
+			  {
+				   number1 = "6";
+			  }else{
+				  number1 = "4";
+			  }
+			    String firstcommand = number1+",,,,"+username2 +","+password2;
+			    int firstcommandi = firstcommand.length();
+			  String firstcommandl;
+            if (firstcommandi<10)
+            {
+			 firstcommandl = "0"+String.valueOf(firstcommand.length());
+            }else 
+            {
+			firstcommandl = String.valueOf(firstcommand.length());
+            }
+			    firstcommand = firstcommandl+ firstcommand;
+			    Server.communicate(firstcommand);
   	      
-  		     String clear = Server.GetData(2);
+  		     String[] rafaye3 = Server.GetCommands(3);
+  		     assignedname = rafaye3[0];
+  		     String clear = rafaye3[1];
   		    	   
   				
   				if(clear.equals("Y")){
@@ -147,9 +102,24 @@ public class SecondScreenActivity extends Activity {
   		      
   		        System.out.println(assignedname);
   		        
-  		        String[] listofdevices = Server.GetCommands(1);
-  		        String[] listofstatus  = Server.GetCommands(2);
-  		        
+  		        	String listofdevices[] = Server.GetCommands(1);
+  		        	String listofstatus[]  = Server.GetCommands(2);
+  		      if (listofdevices == null )
+  		     {
+  		    	AlertDialog.Builder builder = new AlertDialog.Builder(SecondScreenActivity.this);
+  		    	builder.setMessage("No devices are connected ")
+  		    	       .setCancelable(false)
+  		    	       .setPositiveButton("stop", new DialogInterface.OnClickListener() {
+  		    	           public void onClick(DialogInterface dialog, int id) {
+  		    	                System.exit(1);
+  		    	           }
+  		    	       });
+  		    	AlertDialog alert = builder.create();
+  		    	alert.show();
+  		    	System.exit(1);
+  		    	 // new AlertDialog.Builder(SecondScreenActivity.this).setTitle("Error").setMessage("No devices are connected").setNeutralButton("close", onCli))
+  		    	
+  		     }
   		   
   		     
   		     
@@ -183,9 +153,16 @@ public class SecondScreenActivity extends Activity {
 
 class Server extends Activity{
 	public static Socket echoSocket = null;
-    public static  PrintWriter out = null;
+    public static  PrintStream out = null;
     public static  BufferedReader in = null;
-    public static String serverHostname = new String ("10.0.2.2");
+    public static String[] Commands2;
+	
+	public static String[] rafaye3 = new String[3] ;
+	public static String[] modification = new String[3];
+	public static String[] listofdevices = null;
+	public static String[] listofstates = null;
+	public static String[] list = null;
+    public static String serverHostname = new String ("192.168.1.4");
        
      
 	public static  void  setupconnection() 
@@ -201,9 +178,10 @@ class Server extends Activity{
     	            // echoSocket = new Socket("taranis", 7);
     	        	Log.d(null, "crash");
     	            echoSocket = new Socket(serverHostname, 14);
-    	           
 
-    	            out = new PrintWriter(echoSocket.getOutputStream(), true);
+    	            out = new PrintStream(echoSocket.getOutputStream());
+    	            
+    	           
     	            in = new BufferedReader(new InputStreamReader(
                             echoSocket.getInputStream()));
     	            echoSocket.setSoTimeout(1000);
@@ -271,7 +249,7 @@ class Server extends Activity{
    	  
 		
 	}else {
-		out.println(firstcommand);
+		out.print(firstcommand);
 	}
 	
 	
@@ -300,90 +278,23 @@ class Server extends Activity{
 		}
 		ReceivedData = new String(buffer).trim();
 		Commands = ReceivedData.split(".!");
-	}while (Commands== null);
+	}while (Commands.length==0);
 		return Commands;
 	}
 	
 	
-	public static String GetData(int x)
-	{
-		String[] Commands = Server.GetCommandsfromData();
-		String[] Commands2;
-		String assignedname = "tanash";
-		String answer = "tanash";
-		String Confirmation = "tanash";
-		for (int z = 0; z<Commands.length ; z++)
-		{
-			String checkcommand = Commands[z];
-			if(checkcommand.matches(("^((1|4|5|6|7|8),\\d*,(Y|N|\\d*),\\d*,\\d*)")))
-			{
-				Commands2 = checkcommand.split(",");
-				 assignedname = Commands2[1];
-				if (Commands2[0].equals("4")|Commands2[0].equals("5")|Commands2[0].equals("6")|Commands2[0].equals("7")){
-					 answer = Commands2[2];
-				}
-				if (Commands2[0].equals("8"))
-				{
-					Confirmation = Commands2[2];
-				}
-				
-				
-			}
-		}
-		String reply = "tanash" ;
-		if ( x==1)
-		{
-			reply = assignedname;
-		}
-		if (x==2)
-		{
-			reply = answer;
-		}
-		if (x==3)
-		{
-			reply = Confirmation;
-		}
-		return reply;
-	}
 	
-	/*public static String[] modifylist(int x , String[]devices , String[]status , String device , String status1 )
-	{
-		if (x ==1 )//add
-		{
-			//Dictionary<String, String> dic = new Dictionary<String, String>();
-			Map<String,String> map = new HashMap<String,String>();
-			//map.put(key, value)
-			map.get("hi");
-			
-			String[] baha2;
-			
-			for (Map.Entry<String, String> entry : map.entrySet())
-			{
-			    System.out.println(entry.getKey() + "/" + entry.getValue());
-			}
-			
-			baha2[0] =  + "------ " + map.get(devices[0]);
-					
-		}
-		return status;
-	}*/
 	public static String[] GetCommands(int x)
 	{
 		String[] Commands = Server.GetCommandsfromData();
-		String[] Commands2;
-		String[] rafaye3 = null ;
-		String[] modification = null;
-		String[] listofdevices = null;
-		String[] listofstates = null;
-		String[] list = null;
+		
 		int f = 0;
-		 do{
-			 
-		 
+		if (Commands[0]!="")
+		{
 		for (int z = 0; z<Commands.length ; z++)
 		{
 			String checkcommand = Commands[z];
-			if(checkcommand.matches(("^((1|4|5|6|7|8|9),\\d*,(Y|N|\\d*),\\d*,\\d*)")))
+			if(checkcommand.matches(("^((1|4|5|6|7|8|9),.*,(Y|N|.*),.*,.*)")))
 			{
 				Commands2 = checkcommand.split(",");
 				
@@ -408,7 +319,7 @@ class Server extends Activity{
 					if (Commands2[0].equals("8"))
 					{
 						//Confirmation = Commands2[2];
-						rafaye3[1]= Commands2[2];
+						rafaye3[2]= Commands2[2];
 					}
 					if (Commands2[0].equals("9"))
 					{
@@ -416,12 +327,10 @@ class Server extends Activity{
 						modification[1] = Commands2[4];
 						modification[2] = Commands2[5];
 					}
-
-				
-				
 			}
 		}
-		 }while(Commands!=null);
+		}
+		
 		if (x==1)
 		{
 			list = listofdevices;

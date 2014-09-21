@@ -36,11 +36,18 @@ TextView txtTitle = (TextView) rowView.findViewById(R.id.txt);
 
 
 txtTitle.setText(devices[position]);
-if (status[position].equals("255")){
+if (status[position].equals("49")){
 	rowView.setBackgroundColor(Color.GREEN);
-}else{
+}
+if (status[position].equals("48")){
 	rowView.setBackgroundColor(Color.TRANSPARENT);
 	
+}
+if (status[position].equals("51")){
+	rowView.setBackgroundColor(Color.RED);
+}
+if(status[position].equals("50")){
+	rowView.setBackgroundColor(Color.BLUE);
 }
 
 
