@@ -155,6 +155,7 @@ class Server extends Activity{
 	public static Socket echoSocket = null;
     public static  PrintStream out = null;
     public static  BufferedReader in = null;
+<<<<<<< HEAD
     public static String[] Commands2;
 	
 	public static String[] rafaye3 = new String[3] ;
@@ -163,6 +164,10 @@ class Server extends Activity{
 	public static String[] listofstates = null;
 	public static String[] list = null;
     public static String serverHostname = new String ("192.168.1.4");
+=======
+    public static String serverHostname = new String ("192.168.1.2");
+
+>>>>>>> FETCH_HEAD
        
      
 	public static  void  setupconnection() 
