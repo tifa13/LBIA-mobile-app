@@ -77,8 +77,10 @@ public class ThirdScreenActivity extends Activity {
 				CustomList(ThirdScreenActivity.this, devices2, status2 );
        final ListView list =(ListView) findViewById(R.id.list);
 				list.setAdapter(adapter);
+				
 				list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
+					
+					
 		            @Override
 		            public void onItemClick(AdapterView<?> parent, View view,
 		                                    int position, long id) {
@@ -289,8 +291,7 @@ public class ThirdScreenActivity extends Activity {
 		  			}
 				});
 				
-				
-    		    
+	
        		 }
 				
 				

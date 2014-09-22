@@ -2,32 +2,23 @@
 package com.DreamInc.dream;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.PrintStream;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Dictionary;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
 
+import android.R.string;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.DropBoxManager.Entry;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 
 public class SecondScreenActivity extends Activity {
@@ -41,6 +32,7 @@ public class SecondScreenActivity extends Activity {
         super.onCreate(savedInstanceState);
         
       setContentView(R.layout.secondscreen);
+      
       Button btnaction1 = (Button) findViewById(R.id.btnaction1);
       String type;
       Intent i = getIntent();
@@ -128,7 +120,7 @@ public class SecondScreenActivity extends Activity {
   		        
   		        
   				Intent screen3 = new Intent(getApplicationContext(), ThirdScreenActivity.class);
-  				screen3.putExtra("devicename", assignedname.toString());
+  				screen3.putExtra("devicename", assignedname);
   				screen3.putExtra("devices", listofdevices);
   				screen3.putExtra("status", listofstatus);
   				
@@ -152,10 +144,15 @@ public class SecondScreenActivity extends Activity {
 }
 
 class Server extends Activity{
+	
+	
+
+
+
 	public static Socket echoSocket = null;
     public static  PrintStream out = null;
     public static  BufferedReader in = null;
-<<<<<<< HEAD
+
     public static String[] Commands2;
 	
 	public static String[] rafaye3 = new String[3] ;
@@ -163,13 +160,15 @@ class Server extends Activity{
 	public static String[] listofdevices = null;
 	public static String[] listofstates = null;
 	public static String[] list = null;
-    public static String serverHostname = new String ("192.168.1.4");
-=======
-    public static String serverHostname = new String ("192.168.1.2");
+    public static String serverHostname = new String ("10.7.162.63");
+    
+    
+    
+    
+    
 
->>>>>>> FETCH_HEAD
        
-     
+   
 	public static  void  setupconnection() 
 	{
 		
@@ -305,8 +304,8 @@ class Server extends Activity{
 				
 				if (Commands2[0].equals("1")){
 					int number = Integer.parseInt(Commands2[2]);
-					String devicename = String.valueOf(Integer.parseInt(Commands2[3]));
-					String states = String.valueOf(Integer.parseInt(Commands2[4]));
+					String devicename = Commands2[3];
+					String states = Commands2[4];
 					listofdevices = new String[number];
 					listofstates = new String[number];
 					listofdevices[f] = devicename;
@@ -329,8 +328,8 @@ class Server extends Activity{
 					if (Commands2[0].equals("9"))
 					{
 						modification[0] = Commands2[2];
-						modification[1] = Commands2[4];
-						modification[2] = Commands2[5];
+						modification[1] = Commands2[3];
+						modification[2] = Commands2[4];
 					}
 			}
 		}
