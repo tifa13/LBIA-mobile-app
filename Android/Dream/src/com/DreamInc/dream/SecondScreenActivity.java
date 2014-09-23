@@ -291,7 +291,7 @@ class Server extends Activity{
 	public static String[] GetCommands(int x)
 	{
 		String[] Commands = Server.GetCommandsfromData();
-		
+		 String[] modification = new String[3];
 		int f = 0;
 		if (Commands[0]!="")
 		{
