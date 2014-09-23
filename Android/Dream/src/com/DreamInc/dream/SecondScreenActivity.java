@@ -15,6 +15,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +25,8 @@ import android.widget.EditText;
 public class SecondScreenActivity extends Activity {
 	public Server setupconnection = new Server();
 	public String[] commands;
+	
+
 	
 
 	
@@ -167,9 +170,43 @@ class Server extends Activity{
     
     
 
-       
-   
-	public static  void  setupconnection() 
+   /* private class networktask extends AsyncTask<Void, String[], Void>{
+
+    	@Override
+    	protected void onProgressUpdate(String[]... values) {
+    		// TODO Auto-generated method stub
+    		super.onProgressUpdate(values);
+    	}
+
+
+
+    	@Override
+    	protected void onPostExecute(Void result) {
+    		// TODO Auto-generated method stub
+    		super.onPostExecute(result);
+    	}
+
+    	
+
+    	@Override
+    	protected Void doInBackground(Void... params) {
+    		Server.setupconnection();
+    		String[] results = Server.GetCommandsfromData();
+    		publishProgress(results);
+    		
+    		return null;
+    	}
+    	public String[] dostuff(){
+    		String[] results = Server.GetCommandsfromData();
+    		return results;
+    		
+    	}
+    	
+    	
+    }  
+   */
+	
+    public static  void  setupconnection() 
 	{
 		
 
