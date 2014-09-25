@@ -7,15 +7,12 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-
-import android.R.string;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +22,74 @@ import android.widget.EditText;
 public class SecondScreenActivity extends Activity {
 	public Server setupconnection = new Server();
 	public String[] commands;
+	public static String[] intercommand = new String[50];
+	
+	
+	public static String[] getdata1(){
+		String data1[] = new String[10];
+		int i =0;
+		for(int z=0;z<50;z++){
+			
+			if((intercommand[z]!="")&&(intercommand[z]!=null))
+			{
+				data1[i]=intercommand[z];
+				i++;
+			}else{
+				Log.d(null, "crash");
+			}
+			
+		}
+		
+		return data1;
+	}
+	public static void cleardata(){
+		intercommand= new String[50];
+		
+	}
+	
+	
+	private static class networktask extends AsyncTask<Integer, String[], Void>{
+
+    	
+		@Override
+		protected Void doInBackground(Integer... params) {
+			Server.setupconnection();
+    		do{
+    		String[] results = Server.GetCommandsfromData();
+    		if(results.length>0){
+        		intercommand = Server.combine(results, intercommand);		
+        	}
+    		
+    		publishProgress(results);
+    		}while(true);
+		}
+
+
+
+		protected void onProgressUpdate(String values1[]) {
+    		// TODO Auto-generated method stub
+    		super.onProgressUpdate(values1);
+    		String results[] = values1;
+    		
+    		
+    		
+    		
+    	}
+
+
+
+    	@Override
+    	protected void onPostExecute(Void result) {
+    		// TODO Auto-generated method stub
+    		super.onPostExecute(result);
+    	}
+    	 
+
+    	
+
+    	
+    	
+	}
 	
 
 	
@@ -41,6 +106,9 @@ public class SecondScreenActivity extends Activity {
       Intent i = getIntent();
       final String action = i.getStringExtra("action1");
       btnaction1.setText(action);
+      networktask mytask = new networktask();
+	       int z =1;
+	       mytask.execute(z);
       if(action.equals("Sign Up"))
       {
     	   type = "su";
@@ -62,9 +130,10 @@ public class SecondScreenActivity extends Activity {
   				
   				 final EditText username = (EditText) findViewById(R.id.inputusername);
   			      final EditText password = (EditText) findViewById(R.id.inputpassword);	
-  				 String username2 = username.getText().toString();
+  			      String username2 = username.getText().toString();
   			       String password2 = password.getText().toString();
-  			      Server.setupconnection();
+  			     Server.dostuff();
+  			       
   		       String assignedname = "ok";
   		       String number1;
 				if(type2.equals("su"))
@@ -85,12 +154,23 @@ public class SecondScreenActivity extends Activity {
             }
 			    firstcommand = firstcommandl+ firstcommand;
 			    Server.communicate(firstcommand);
-  	      
+			    Server.dostuff();
+			    String clear = "ok";
+			   
+  	     for (int i =0 ; i<4 ; i++){
+  	    	 
   		     String[] rafaye3 = Server.GetCommands(3);
   		     assignedname = rafaye3[0];
-  		     String clear = rafaye3[1];
-  		    	   
-  				
+  		     clear = rafaye3[1];
+  		     if(clear!= null){
+  		    	 i=12;
+  		     }
+  		     
+  			}
+  	     if (clear ==null){
+  	    	 clear = "N";
+  	     }
+  	   SecondScreenActivity.cleardata();
   				if(clear.equals("Y")){
   					
   				
@@ -155,6 +235,7 @@ class Server extends Activity{
 	public static Socket echoSocket = null;
     public static  PrintStream out = null;
     public static  BufferedReader in = null;
+    
 
     public static String[] Commands2;
 	
@@ -163,48 +244,28 @@ class Server extends Activity{
 	public static String[] listofdevices = null;
 	public static String[] listofstates = null;
 	public static String[] list = null;
-    public static String serverHostname = new String ("10.7.162.63");
+    public static String serverHostname = new String ("10.7.162.14");
     
     
     
     
     
-
-   /* private class networktask extends AsyncTask<Void, String[], Void>{
-
-    	@Override
-    	protected void onProgressUpdate(String[]... values) {
-    		// TODO Auto-generated method stub
-    		super.onProgressUpdate(values);
-    	}
-
+    public static String[] combine(String[] a, String[] b){
+        int length = a.length + b.length;
+        String[] result = new String[length];
+        System.arraycopy(a, 0, result, 0, a.length);
+        System.arraycopy(b, 0, result, a.length, b.length);
+        return result;
+    }
 
 
-    	@Override
-    	protected void onPostExecute(Void result) {
-    		// TODO Auto-generated method stub
-    		super.onPostExecute(result);
-    	}
 
-    	
-
-    	@Override
-    	protected Void doInBackground(Void... params) {
-    		Server.setupconnection();
-    		String[] results = Server.GetCommandsfromData();
-    		publishProgress(results);
-    		
-    		return null;
-    	}
-    	public String[] dostuff(){
-    		String[] results = Server.GetCommandsfromData();
-    		return results;
-    		
-    	}
+    
     	
     	
-    }  
-   */
+    
+   
+   
 	
     public static  void  setupconnection() 
 	{
@@ -260,7 +321,7 @@ class Server extends Activity{
 	
 	public  static void communicate(String firstcommand) {
 		
-	try {
+	/*try {
 		if(in.read()==-1){
 			
 			
@@ -269,7 +330,7 @@ class Server extends Activity{
 	} catch (IOException e1) {
 		// TODO Auto-generated catch block
 		e1.printStackTrace();
-	}
+	}*/
 			
 		
 		
@@ -327,14 +388,17 @@ class Server extends Activity{
 	
 	public static String[] GetCommands(int x)
 	{
-		String[] Commands = Server.GetCommandsfromData();
+		
+		String intercommand[] = SecondScreenActivity.getdata1();
+		
 		 String[] modification = new String[3];
 		int f = 0;
-		if (Commands[0]!="")
+		
+		for (int z = 0; z<intercommand.length ; z++)
 		{
-		for (int z = 0; z<Commands.length ; z++)
+		if ((intercommand[z]!="")&&(intercommand[z]!=null))
 		{
-			String checkcommand = Commands[z];
+			String checkcommand = intercommand[z];
 			if(checkcommand.matches(("^((1|4|5|6|7|8|9),.*,(Y|N|.*),.*,.*)")))
 			{
 				Commands2 = checkcommand.split(",");
@@ -384,13 +448,22 @@ class Server extends Activity{
 		if (x==3)
 		{
 			list = rafaye3;
+			rafaye3 = new String[3];
 		}
 		if (x==4)
 		{
 			list = modification;
+			
 		}
+		
 
 		return list;
+	}
+	public static void dostuff(){
+		int z = 0;
+		for(int dd=0;dd>150;dd++){
+			z++;
+		}
 	}
 			
 	}

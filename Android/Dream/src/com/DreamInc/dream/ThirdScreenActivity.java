@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -53,15 +55,6 @@ public class ThirdScreenActivity extends Activity {
  	    status2[ff] = value;
  	    ff++;
  	}
-
-    
-     /*for (int rr = 0 ; rr<map.size() ; rr++)
-		{
-		    //System.out.println(entry.getKey() + "/" + entry.getValue());
-    	    devices2[ff] = entry.getKey();
-		    status2[ff] = entry.getValue();
-		    ff++;
-		}*/
      ff=0;
       
       final String name = i.getStringExtra("devicename");
@@ -90,18 +83,8 @@ public class ThirdScreenActivity extends Activity {
 		            	
 		            	if ((z.equals("48"))|(z.equals("50"))|(z.equals("51"))){
 
-		            		/*
-		            		 int rr = Integer.parseInt(name);
-		            		 
-		            		byte[] rr_bytes = ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(rr).array();
-		            		String newname = new StringBuilder().append((char)rr_bytes[0]).append((char)rr_bytes[1]).toString();
 		            		
-		            		int zz = Integer.parseInt(devices2[+position]);
-		            		byte[] zz_bytes = ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(zz).array();
-		            		String newdevice = new StringBuilder().append((char)zz_bytes[0]).append((char)zz_bytes[1]).toString();
-		            		*/
 		            		 String commandon = "8,"+name+","+devices2[+position]+",1,,";
-		            		 
 		            		 int commandoni = commandon.length();
 		     	              String commandonl;
 		     	             
@@ -113,20 +96,19 @@ public class ThirdScreenActivity extends Activity {
 		                      commandonl = String.valueOf(commandon.length());
 		                     }
 		            		 commandon = commandonl + commandon;
+		            		 
 		            		 Server.communicate(commandon);
-		            		 //String[] rafaye3 = Server.GetCommands(3);
-		            		 //String Confirmation = rafaye3[2];
+		            		 Server.dostuff();
+		            		 
 		            		 for (int i = 0 ; i<5 ; i++){
 		            		 String[] modification = Server.GetCommands(4);
 				    		    if (modification[0]!=null)
 				    		    {
 				    		    	i = 10;
-				    		    
 				    		    String mm = modification[0];
 				    		    if (mm.equals("1")|(mm.equals("3")))
 				    		    {
-				    		    	map.put(modification[1], modification[2]);
-				    		    	//list.getChildAt(position).setBackgroundColor(Color.GREEN);	
+				    		    	map.put(modification[1], modification[2]);	
 				    		    	status2[+position]="49";
 				    		    }
 				    		    if (mm.equals("2"))
@@ -141,6 +123,7 @@ public class ThirdScreenActivity extends Activity {
 				    		 	    String value = map.get(key);
 				    		 	    //devices2[ff] = key;
 				    		 	    //status2[ff] = value;
+				    		 	    
 				    		 	   int valuin = Integer.parseInt(value);
 				    		 	   if (valuin==49){
 				    		 	    	list.getChildAt(ff).setBackgroundColor(Color.GREEN);
@@ -161,15 +144,7 @@ public class ThirdScreenActivity extends Activity {
 				    		    }
 				    		    }
 		            		 }
-		            		/* if (Confirmation != null)
-		            		 {
-		            			 
-		            		 
-		            		 if (Confirmation.equals("Y"))
-		            		 {
-		           		        list.getChildAt(position).setBackgroundColor(Color.GREEN);	
-		           		     	status2[+position] =  "49" ;
-		            		 }*/
+		            		
 		            		 if ((status2[+position]=="48")|(status2[+position]=="50")|(status2[+position]=="51"))
 		            		 {
 		            			 String feedback1 = "Command can't be executed. Please try again later";
@@ -178,26 +153,13 @@ public class ThirdScreenActivity extends Activity {
 			                          .show();
 		            		 }
 		            		 }
-		            		 /*else {
-		            			 String feedback1 = "Server is not responding :(";
-		            			 Toast.makeText(getApplicationContext(),
-			                             feedback1, Toast.LENGTH_LONG)
-			                          .show();
-		            		 }*/
+		            		
 		            		 
 		            		 
 		            		 
 		            		 
 		            		 
 		            	else{
-		            		/*int rr = Integer.parseInt(name);
-		            		byte[] rr_bytes = ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(rr).array();
-		            		String newname = new StringBuilder().append((char)rr_bytes[0]).append((char)rr_bytes[1]).toString();
-		            		
-		            		int zz = Integer.parseInt(devices2[+position]);
-		            		byte[] zz_bytes = ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(zz).array();
-		            		String newdevice = new StringBuilder().append((char)zz_bytes[0]).append((char)zz_bytes[1]).toString();
-		            		*/
 		            		
 		            		String commandoff = "8,"+name+","+devices2[+position]+",0,,";
 		            		int commandoffi = commandoff.length();
@@ -211,6 +173,7 @@ public class ThirdScreenActivity extends Activity {
 		                     }
 		            		commandoff = commandoffl + commandoff;
 		            		 Server.communicate(commandoff);
+		            		 Server.dostuff();
 		            		
 		            		 for (int i = 0 ; i<5 ; i++){
 		            			 String[] modification = Server.GetCommands(4); 
@@ -258,22 +221,7 @@ public class ThirdScreenActivity extends Activity {
 				    		    }
 				    		    }
 		            		 }
-				    		    /*
-		            		 if (Confirmation != null){
-		            			 
-		            		
-		            		 if (Confirmation.equals("Y"))
-		            		 {
-		            		    
-		           		        list.getChildAt(position).setBackgroundColor(Color.TRANSPARENT);
-
-		           		        
-		           		     	status2[+position] =  "48" ;
-
-		           		     	
-
-		            		 
-		            		 }*/
+				    		   
 		            		 if (status2[+position]=="49")
 		            		 {
 		            			 String feedback1 = "Command can't be executed. Please try again later";
@@ -286,13 +234,7 @@ public class ThirdScreenActivity extends Activity {
 		            	
 		            	
 		    		    
-		    		    /*for (Map.Entry<String, String> entry : map.entrySet())
-		    			{
-		    			    //System.out.println(entry.getKey() + "/" + entry.getValue());
-		    			    devices2[ff] = entry.getKey();
-		    			    status2[ff] = entry.getValue();
-		    			    ff++;
-		    			}*/
+		    		    
 		    	     
 		    		    }
 		            
@@ -311,51 +253,18 @@ public class ThirdScreenActivity extends Activity {
 		  			}
 				});
 				
-				/*ff=0;
-	    	     String[] modification = Server.GetCommands(4);
-	    		    if (modification[0]!=null)
-	    		    {
-	    		    	
-	    		    
-	    		    String mm = modification[0];
-	    		    if (mm.equals("1")|(mm.equals("3")))
-	    		    {
-	    		    	map.put(modification[1], modification[2]);
-	    		    }
-	    		    if (mm.equals("2"))
-	    		    {
-	    		    	map.remove(modification[1]);
-	    		    }
-	    		    for ( String key : map.keySet() ) {
-	    		 	    System.out.println( key );
-	    		 	    System.out.println(map.get(key));
-	    		 	    String value = map.get(key);
-	    		 	    
-	    		 	    //devices2[ff] = key;
-	    		 	    //status2[ff] = value;
-	    		 	   int valuin = Integer.parseInt(value);
-	    		 	   if (valuin==49){
-	    		 	    	list.getChildAt(ff).setBackgroundColor(Color.GREEN);
-	    		 	    }
-	    		 	    if(valuin==48){
-	    		 	    	list.getChildAt(ff).setBackgroundColor(Color.TRANSPARENT);
-	    		 	    }
-	    		 	   if(valuin==51){
-	    		 	    	list.getChildAt(ff).setBackgroundColor(Color.RED);
-	    		 	    }
-	    		 	  if(valuin==50){
-	    		 	    	list.getChildAt(ff).setBackgroundColor(Color.BLUE);
-	    		 	    }
-	    		 	    ff++;
-	    		 	}
-	    		    ff=0;
-	    		    }*/
+				
 				
 	
        		 }
-				
+	
+	
 				
 	}
+
+
+	
+
       
       
       
