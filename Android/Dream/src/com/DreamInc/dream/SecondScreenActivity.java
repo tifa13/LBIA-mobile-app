@@ -53,7 +53,9 @@ public class SecondScreenActivity extends Activity {
     	
 		@Override
 		protected Void doInBackground(Integer... params) {
+			Log.d("hii", "worked");
 			Server.setupconnection();
+			Log.d("hii", ";)");
     		do{
     		String[] results = Server.GetCommandsfromData();
     		if(results.length>0){
@@ -109,6 +111,19 @@ public class SecondScreenActivity extends Activity {
       networktask mytask = new networktask();
 	       int z =1;
 	       mytask.execute(z);
+	       
+	       Log.d("hi", "before entering !!!!!!!!!!!!");
+	       try {
+	    	   Log.d("hi", "one");
+			Thread.sleep(2000);
+			Log.d("hi", "two");
+			
+			
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      
       if(action.equals("Sign Up"))
       {
     	   type = "su";
@@ -154,7 +169,16 @@ public class SecondScreenActivity extends Activity {
             }
 			    firstcommand = firstcommandl+ firstcommand;
 			    Server.communicate(firstcommand);
-			    Server.dostuff();
+			    try {
+			    	   Log.d("hi", "one");
+					Thread.sleep(2000);
+					Log.d("hi", "two");
+					
+					
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			    String clear = "ok";
 			   
   	     for (int i =0 ; i<4 ; i++){
@@ -168,40 +192,13 @@ public class SecondScreenActivity extends Activity {
   		     
   			}
   	     if (clear ==null){
-  	    	 clear = "N";
+  	    	 clear = "S";
   	     }
+  	   String listofdevices[] = Server.GetCommands(1);
+     	String listofstatus[]  = Server.GetCommands(2);
   	   SecondScreenActivity.cleardata();
-  				if(clear.equals("Y")){
-  					
-  				
-  		      
-  		        System.out.println(assignedname);
-  		        
-  		        	String listofdevices[] = Server.GetCommands(1);
-  		        	String listofstatus[]  = Server.GetCommands(2);
-  		      if (listofdevices == null )
-  		     {
-  		    	AlertDialog.Builder builder = new AlertDialog.Builder(SecondScreenActivity.this);
-  		    	builder.setMessage("No devices are connected ")
-  		    	       .setCancelable(false)
-  		    	       .setPositiveButton("stop", new DialogInterface.OnClickListener() {
-  		    	           public void onClick(DialogInterface dialog, int id) {
-  		    	                System.exit(1);
-  		    	           }
-  		    	       });
-  		    	AlertDialog alert = builder.create();
-  		    	alert.show();
-  		    	System.exit(1);
-  		    	 // new AlertDialog.Builder(SecondScreenActivity.this).setTitle("Error").setMessage("No devices are connected").setNeutralButton("close", onCli))
-  		    	
-  		     }
-  		   
-  		     
-  		     
-  		     
-  		        
-  		        
-  		        
+  	   
+  				if((clear.equals("Y"))&&(listofdevices!=null)&&(listofstatus!=null)){
   				Intent screen3 = new Intent(getApplicationContext(), ThirdScreenActivity.class);
   				screen3.putExtra("devicename", assignedname);
   				screen3.putExtra("devices", listofdevices);
@@ -210,8 +207,17 @@ public class SecondScreenActivity extends Activity {
   				
                 startActivity(screen3);
                 
-  				}else{
+  				}
+  				if (((listofdevices==null)||(listofstatus==null))&&(clear.equals("Y")))
+  				{
+  					new AlertDialog.Builder(SecondScreenActivity.this).setTitle("Error").setMessage("No devices are connected :( Plz try again later").setNeutralButton("Close", null).show();
+  				}
+  				if(clear.equals("N"))
+  				{
   					new AlertDialog.Builder(SecondScreenActivity.this).setTitle("Error").setMessage("Wrong username or passowrd").setNeutralButton("Close", null).show();
+  				}
+  				if(clear.equals("S")){
+  					new AlertDialog.Builder(SecondScreenActivity.this).setTitle("Error").setMessage("We have a Maintenance problem :( plz try again later").setNeutralButton("Close", null).show();
   				}
   				}
   			
@@ -244,7 +250,7 @@ class Server extends Activity{
 	public static String[] listofdevices = null;
 	public static String[] listofstates = null;
 	public static String[] list = null;
-    public static String serverHostname = new String ("10.7.162.14");
+    public static String serverHostname = new String ("172.20.10.4");
     
     
     
@@ -280,7 +286,7 @@ class Server extends Activity{
     	            // echoSocket = new Socket("taranis", 7);
     	        	Log.d(null, "crash");
     	            echoSocket = new Socket(serverHostname, 14);
-
+    	            Log.d("hiii", ":)");
     	            out = new PrintStream(echoSocket.getOutputStream());
     	            
     	           
@@ -393,7 +399,7 @@ class Server extends Activity{
 		
 		 String[] modification = new String[3];
 		int f = 0;
-		
+		int rr = 0;
 		for (int z = 0; z<intercommand.length ; z++)
 		{
 		if ((intercommand[z]!="")&&(intercommand[z]!=null))
@@ -403,12 +409,17 @@ class Server extends Activity{
 			{
 				Commands2 = checkcommand.split(",");
 				
+				
 				if (Commands2[0].equals("1")){
 					int number = Integer.parseInt(Commands2[2]);
+					if (rr==0){
+						listofdevices = new String[number];
+						listofstates = new String[number];
+						rr=10;
+					}
+					
 					String devicename = Commands2[3];
 					String states = Commands2[4];
-					listofdevices = new String[number];
-					listofstates = new String[number];
 					listofdevices[f] = devicename;
 					listofstates[f] = states;
 					f++;
@@ -461,7 +472,7 @@ class Server extends Activity{
 	}
 	public static void dostuff(){
 		int z = 0;
-		for(int dd=0;dd>150;dd++){
+		for(int dd=0;dd<100000;dd++){
 			z++;
 		}
 	}

@@ -6,11 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -21,10 +20,11 @@ public class ThirdScreenActivity extends Activity {
 	ListView listView;
 	String[] devices;
 	String[] status;
-	String[] devices2 = new String[1];
-	String[] status2 = new String[1];
+	String[] devices2 = null;
+	String[] status2 = null;
 	public String z;
 	int ff = 0;
+	
 	
 	
 	
@@ -39,6 +39,10 @@ public class ThirdScreenActivity extends Activity {
        Intent i = getIntent();
        devices = i.getStringArrayExtra("devices");
      status = i.getStringArrayExtra("status");
+     int ss = devices.length;
+     devices2 = new String[ss];
+     status2 = new String[ss];
+  
     
      final Map<String,String> map = new HashMap<String,String>();
           
@@ -98,10 +102,20 @@ public class ThirdScreenActivity extends Activity {
 		            		 commandon = commandonl + commandon;
 		            		 
 		            		 Server.communicate(commandon);
-		            		 Server.dostuff();
+		            		 try {
+		          	    	   Log.d("hi", "one");
+		          			Thread.sleep(2000);
+		          			Log.d("hi", "two");
+		          			
+		          			
+		          		} catch (InterruptedException e) {
+		          			// TODO Auto-generated catch block
+		          			e.printStackTrace();
+		          		}
 		            		 
 		            		 for (int i = 0 ; i<5 ; i++){
 		            		 String[] modification = Server.GetCommands(4);
+		            		 SecondScreenActivity.cleardata();
 				    		    if (modification[0]!=null)
 				    		    {
 				    		    	i = 10;
@@ -144,6 +158,7 @@ public class ThirdScreenActivity extends Activity {
 				    		    }
 				    		    }
 		            		 }
+		            		 
 		            		
 		            		 if ((status2[+position]=="48")|(status2[+position]=="50")|(status2[+position]=="51"))
 		            		 {
@@ -173,11 +188,20 @@ public class ThirdScreenActivity extends Activity {
 		                     }
 		            		commandoff = commandoffl + commandoff;
 		            		 Server.communicate(commandoff);
-		            		 Server.dostuff();
+		            		 try {
+		          	    	   Log.d("hi", "one");
+		          			Thread.sleep(2000);
+		          			Log.d("hi", "two");
+		          			
+		          			
+		          		} catch (InterruptedException e) {
+		          			// TODO Auto-generated catch block
+		          			e.printStackTrace();
+		          		}
 		            		
 		            		 for (int i = 0 ; i<5 ; i++){
 		            			 String[] modification = Server.GetCommands(4); 
-		            		
+		            			 SecondScreenActivity.cleardata();
 				    		    if (modification[0]!=null)
 				    		    {
 				    		    i = 10;	
@@ -192,7 +216,9 @@ public class ThirdScreenActivity extends Activity {
 				    		    if (mm.equals("2"))
 				    		    {
 				    		    	map.remove(modification[1]);
+				    		    	map.notifyAll();
 				    		    	list.invalidateViews();
+				    		    	
 				    		    }
 				    		    if (map.isEmpty()==false){
 				    		    for ( String key : map.keySet() ) {
@@ -204,6 +230,8 @@ public class ThirdScreenActivity extends Activity {
 				    		 	    
 				    		 	   int valuin = Integer.parseInt(value);
 				    		 	   if (valuin==49){
+				    		 		   
+				    		 		  
 				    		 	    	list.getChildAt(ff).setBackgroundColor(Color.GREEN);
 				    		 	    }
 				    		 	    if(valuin==48){
